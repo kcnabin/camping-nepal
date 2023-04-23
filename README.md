@@ -1,0 +1,1 @@
+Frontend for 'Camping Nepal', a MERN Project
