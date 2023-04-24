@@ -7,12 +7,14 @@ const SignUpForm = () => {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [newUserCreated, setNewUserCreated] = useState(false)
 
   const navigate = useNavigate()
   const clearForm = () => {
     setFullName('')
     setEmail('')
     setPassword('')
+    setNewUserCreated(false)
   }
 
   const signupUser = async e => {
@@ -28,16 +30,30 @@ const SignUpForm = () => {
     try {
       await axios.post(signupUrl, userObject)
       clearForm()
-      navigate('/login')
+
+      setNewUserCreated(true)
+      setTimeout(() => {
+        clearForm()
+        navigate('/login')
+      }, 4000)
       
     } catch (e) {
-      alert('error signing up')
-      console.log(e.response.data)
+      alert(e.response.data.err)
+      console.log(e.response.data.err)
     }
   }
 
   return (
+    <>
+    {
+      newUserCreated ? (
+        <div className="mb-3 text-muted">
+          New User created. Redirecting to login...
+        </div>
+      ) : ''
+    }
     <form onSubmit={signupUser}>
+      
       <div className="mb-3">
         <label htmlFor="fullname" className="form-label">
           Full Name
@@ -48,6 +64,7 @@ const SignUpForm = () => {
           id="fullname"
           value={fullName}
           onChange={e => setFullName(e.target.value)}
+          required
         />
       </div>
 
@@ -61,6 +78,7 @@ const SignUpForm = () => {
           id="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
+          required
         />
       </div>
 
@@ -74,6 +92,7 @@ const SignUpForm = () => {
           id="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
+          required
         />
       </div>
 
@@ -84,6 +103,7 @@ const SignUpForm = () => {
         Signup
       </button>
     </form>
+    </>
   )
 }
 

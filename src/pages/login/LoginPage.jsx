@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import LoginForm from "./LoginForm"
 
 const LoginPage = () => {
   return (
@@ -9,35 +10,7 @@ const LoginPage = () => {
             Login
           </p>
 
-          <form>
-            
-            <div className="mb-3">
-              <label htmlFor="" className="form-label">
-                Email
-              </label>
-              <input 
-                type="text"
-                className="form-control"
-              />
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="" className="form-label">
-                Password
-              </label>
-              <input 
-                type="password"
-                className="form-control"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="btn btn-success"
-            >
-              Login
-            </button>
-          </form>
+          <LoginForm />
 
           <div className="mt-4 d-sm-flex align-items-center">
             <span className="fw-bold">
