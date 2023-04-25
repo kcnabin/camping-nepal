@@ -39,7 +39,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleLogin}>   
       <div className="mb-3">
-        <label htmlFor="" className="form-label">
+        <label htmlFor="uEmail" className="form-label">
           Email
         </label>
         <input 
@@ -48,11 +48,12 @@ const LoginForm = () => {
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
+          id='uEmail'
         />
       </div>
 
       <div className="mb-3">
-        <label htmlFor="" className="form-label">
+        <label htmlFor="uPassword" className="form-label">
           Password
         </label>
         <input 
@@ -61,6 +62,7 @@ const LoginForm = () => {
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
+          id='uPassword'
         />
       </div>
 

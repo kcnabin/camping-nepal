@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import ProfileIcon from '../svg-icons/profile-icon'
+import ProfileIcon from '../svg-icons/ProfileIcon'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import LoginDropdown from './components/LoginDropdown'
@@ -29,6 +29,7 @@ const Header = () => {
         <div className='rounded-pill border bg-secondary border-white p-1' data-bs-toggle="dropdown">
           <ProfileIcon size={'24px'} /> 
         </div>
+        
         {
           user ? (
             <Link to='/account' className='fw-bold ms-2 d-none d-sm-block text-white text-decoration-none'>
