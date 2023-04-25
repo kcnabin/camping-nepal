@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom'
 import ProfileIcon from '../svg-icons/profile-icon'
 import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
+import LoginDropdown from './components/LoginDropdown'
+import UserMenuDropdown from './components/UserMenusDropdown'
 
 const Header = () => {
   const {user} = useContext(UserContext)
-  console.log('user :', user);
+  
   return (
     <div className="bg-dark text-white d-flex justify-content-between py-3 px-3">
       <Link to='/' 
@@ -36,17 +38,10 @@ const Header = () => {
         }
 
         <div className="dropdown-menu p-0 p-1">
-          <div className="d-flex flex-column">
-            <Link to='/account' className='text-decoration-none py-2 px-3 text-dark fw-bold'>
-              Profile
-            </Link>
-            <Link to='/account/bookings' className='text-decoration-none py-2 px-3 text-dark fw-bold'>
-              My Bookings
-            </Link>
-            <Link to='/account/places' className='text-decoration-none py-2 px-3 text-dark fw-bold'>
-              My Places
-            </Link>
-          </div>
+          { user 
+            ? <UserMenuDropdown /> 
+            : <LoginDropdown />
+          }
         </div>
       </div>
     </div>
