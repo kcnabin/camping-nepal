@@ -1,19 +1,51 @@
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import axios from 'axios'
 import AddFacilities from './AddFacilities'
+import { getBaseUrl } from '../../../../helper/getBaseUrl'
+import { getTokenHeader } from '../../../../helper/getTokenHeader'
 
-const AddPlaceForm = ({ setPageForm }) => {
+const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const { placeId } = useParams()
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
-  const [descriptions, setDescritions] = useState('')
+  const [photos, setPhotos] = useState([])
+  const [descriptions, setDescriptions] = useState('')
   const [facilities, setFacilities] = useState([])
-  const [guestsNum, setGuestNum] = useState(5)
+  const [guestsNum, setGuestNum] = useState('')
   const [price, setPrice] = useState('')
 
-  const addNewCamp = e => {
-    e.preventDefault()
+  const clearForm = () => {
+    setName('')
+    setAddress('')
+    setPhotos([])
+    setDescriptions('')
+    setFacilities([])
+    setGuestNum('')
+    setPrice('')
   }
+
+  const addNewCamp = async e => {
+    e.preventDefault()
+
+    const placeUrl = getBaseUrl() + '/places'
+    const newPlace = {
+      name, address, photos, descriptions, facilities, guestsNum, price
+    }
+
+    try {
+      const savedPlace = await axios.post(placeUrl, newPlace, getTokenHeader())
+      clearForm()
+      setMyPlaces(myPlaces.concat(savedPlace.data))
+      setPageForm(false)
+
+    } catch (e) {
+      console.log(e)
+      alert('Error saving new place')
+    }
+  }
+
+  
 
   return (
     <div className='container'>
@@ -58,7 +90,7 @@ const AddPlaceForm = ({ setPageForm }) => {
               type="text"
               className='form-control mb-3'
               value={descriptions}
-              onChange={e => setDescritions(e.target.value)}
+              onChange={e => setDescriptions(e.target.value)}
             />
           </div>
 
