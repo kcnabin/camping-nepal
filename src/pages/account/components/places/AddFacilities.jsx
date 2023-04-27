@@ -74,9 +74,9 @@ const AddFacilities = ({facilities, setFacilities}) => {
         <div className="row">
           
           {
-            allFacilites.map(perk => {
+            allFacilites.map((perk, i) => {
               return (
-                <div className="d-flex align-items-center p-1 col-12 col-sm-6 col-lg-4" key={perk.name}>
+                <div className="d-flex align-items-center p-1 col-12 col-sm-6 col-lg-4" key={i}>
                   <input 
                     type="checkbox"
                     name={perk.name}

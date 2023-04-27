@@ -4,6 +4,8 @@ import axios from 'axios'
 import AddFacilities from './AddFacilities'
 import { getBaseUrl } from '../../../../helper/getBaseUrl'
 import { getTokenHeader } from '../../../../helper/getTokenHeader'
+import AddPhotosByLink from './AddPhotosByLink'
+import { getImgSrc } from '../../../../helper/getImgSrc'
 
 const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const { placeId } = useParams()
@@ -81,6 +83,27 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
             />
           </div>
 
+          <AddPhotosByLink
+            photos={photos}
+            setPhotos={setPhotos}
+          />
+
+          <div className="d-flex flex-wrap my-2 gap-2">
+            {
+              photos.map((photo, i) => {
+                return (
+                  <div className="img-thumbnails ratio ratio-16x9" key={i}>
+                    <img
+                      src={getImgSrc(photo)}
+                      className='w-100 object-fit-cover rounded-3'
+                      alt='uploaded photos'
+                    />
+                  </div>
+                )
+              })
+            }
+          </div>
+
           <div className="">
             <label htmlFor="" className="form-label">
               Descriptions
@@ -94,7 +117,10 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
             />
           </div>
 
-          <AddFacilities facilities={facilities} setFacilities={setFacilities} />
+          <AddFacilities 
+            facilities={facilities} 
+            setFacilities={setFacilities} 
+          />
 
           <div className="">
             <label htmlFor="" className="form-label">
