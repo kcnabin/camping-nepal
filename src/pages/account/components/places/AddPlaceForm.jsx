@@ -6,6 +6,7 @@ import { getBaseUrl } from '../../../../helper/getBaseUrl'
 import { getTokenHeader } from '../../../../helper/getTokenHeader'
 import AddPhotosByLink from './AddPhotosByLink'
 import { getImgSrc } from '../../../../helper/getImgSrc'
+import PhotoUploader from './PhotoUploader'
 
 const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const { placeId } = useParams()
@@ -84,6 +85,11 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
           </div>
 
           <AddPhotosByLink
+            photos={photos}
+            setPhotos={setPhotos}
+          />
+
+          <PhotoUploader
             photos={photos}
             setPhotos={setPhotos}
           />
