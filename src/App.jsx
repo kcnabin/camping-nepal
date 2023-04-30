@@ -5,6 +5,7 @@ import SignupPage from "./pages/signup/SignupPage"
 import IndexPage from "./pages/index/IndexPage"
 import NotFound from "./pages/not-found/NotFound"
 import AccountPage from "./pages/account/AccountPage"
+import BookingPage from "./pages/booking/BookingPage"
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/account" element={<AccountPage />} />
           <Route path="/account/:subpage" element={<AccountPage />} />
           <Route path="/account/places/:placeId" element={<AccountPage />} />
+          <Route path="/places/:placeId" element={<BookingPage />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>

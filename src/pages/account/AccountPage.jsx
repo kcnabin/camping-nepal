@@ -26,8 +26,8 @@ const AccountPage = () => {
   }
 
   return (
-    <div className="">
-      <div className="d-flex flex-wrap justify-content-center py-2">
+    <div className="container">
+      <div className="d-flex flex-wrap justify-content-center">
         <Link to='/account' className={getTab('profile')}>
           <ProfileIcon size={"16px"} />
           <span className='ms-2'>Profile</span>
