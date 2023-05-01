@@ -1,14 +1,15 @@
 import { useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { getBaseUrl } from "../../helper/getBaseUrl"
-import { getTokenHeader } from "../../helper/getTokenHeader"
+import { getBaseUrl } from "../../../helper/getBaseUrl"
+import { getTokenHeader } from "../../../helper/getTokenHeader"
+import { differenceInCalendarDays } from 'date-fns'
 
 const BookingForm = ({place}) => {
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [noOfPeople, setNoOfPeople] = useState('')
-  const [name, setName] = useState('')
+  const [name, setName] = useState((JSON.parse(localStorage.getItem('camper'))).name)
   const [contactNo, setContactNo] = useState('')
 
   const navigate = useNavigate()
@@ -21,7 +22,8 @@ const BookingForm = ({place}) => {
       checkIn,
       checkOut,
       contactName: name,
-      contactNo
+      contactNo,
+      price: place.price
     }
 
     try {
@@ -53,6 +55,7 @@ const BookingForm = ({place}) => {
               value={checkIn}
               onChange={e => setCheckIn(e.target.value)}
               required
+              min={new Date().toLocaleDateString()}
             />
           </div>
 
@@ -111,14 +114,19 @@ const BookingForm = ({place}) => {
           </div>
         </div>
 
-        <div className=" fw-bold">
-          <div className="mt-3">
-            Total Nights
-          </div>
-          <div className="mt-3">
-            Total Amount
-          </div>
-        </div>
+        {
+          (checkIn !== '' && checkOut !== '') ? (
+            <div className=" fw-bold">
+              <div className="mt-3">
+                Total Nights: {differenceInCalendarDays(new Date(checkOut), new Date(checkIn))}
+              </div>
+              <div className="mt-3">
+                Total Amount: NRs. {(differenceInCalendarDays(new Date(checkOut), new Date(checkIn))) * place.price}
+              </div>
+            </div>
+          ) : ""
+        }
+        
 
         <div className="mt-3">
           <button type="submit" className="btn btn-success">

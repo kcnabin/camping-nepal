@@ -4,9 +4,11 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import { getBaseUrl } from "../../../helper/getBaseUrl"
 import { getTokenHeader } from "../../../helper/getTokenHeader"
+import EachPlace from "../../index/EachPlace"
 
 const MyBookings = () => {
   const [myBooking, setMyBooking] = useState(null)
+  console.log('myBooking :', myBooking);
 
   useEffect(() => {
     const fetchMyBooking = async () => {
@@ -17,15 +19,25 @@ const MyBookings = () => {
     fetchMyBooking()
   }, [])
   
-  if (myBooking) {
+  if (myBooking?.length > 0) {
     return (
       <>
-        My Bookings
+        {/* {
+          myBooking.map(booking => {
+            return (<EachPlace place={booking} key={booking._id} />)
+          })
+        } */}
       </>
     )
   }
 
-  return
+
+  return (
+    <h4>
+      No Booking
+    </h4>
+  )
+
 }
 
 export default MyBookings

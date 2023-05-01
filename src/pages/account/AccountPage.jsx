@@ -7,7 +7,7 @@ import BookingIcon from '../../svg-icons/BookingIcon'
 
 const AccountPage = () => {
   let { subpage } = useParams()
-  
+
   if (subpage === undefined) {
     subpage = 'profile'
   }

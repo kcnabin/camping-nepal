@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import AddFacilities from './AddFacilities'
 import { getBaseUrl } from '../../../../helper/getBaseUrl'
@@ -17,6 +17,35 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const [facilities, setFacilities] = useState([])
   const [guestsNum, setGuestNum] = useState('')
   const [price, setPrice] = useState('')
+  const [placeToEdit, setPlaceToEdit] = useState([])
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (placeId) {
+      const fetchPlaceForEdit = async () => {
+        const placeUrl = getBaseUrl() + '/places/' + placeId
+        try {
+          const {data} = await axios.get(placeUrl)
+          setPlaceToEdit(data)
+          setName(data.name)
+          setAddress(data.address)
+          setPhotos(data.photos)
+          setDescriptions(data.descriptions)
+          setFacilities(data.facilities)
+          setGuestNum(data.guestsNum)
+          setPrice(data.price)
+
+        } catch (e) {
+          console.log(e)
+          alert('unable to fetch place for edit')
+        }
+        
+      }
+
+      fetchPlaceForEdit()
+    }
+  }, [placeId])
 
   const clearForm = () => {
     setName('')
@@ -30,22 +59,45 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
 
   const addNewCamp = async e => {
     e.preventDefault()
+    
+    if (placeId) {
+      try {
+        const updatePlaceUrl = getBaseUrl() + '/places/' + placeId
+        const placeToUpdate = {
+          name, address, photos, descriptions, facilities, guestsNum, price, owner: placeToEdit.owner
+        }
+    
+        const updatedPlace = await axios.put(updatePlaceUrl, placeToUpdate, getTokenHeader())
+        // setPageForm(false)
+        clearForm()
+        navigate('/account/places')
+        
 
-    const placeUrl = getBaseUrl() + '/places'
-    const newPlace = {
-      name, address, photos, descriptions, facilities, guestsNum, price
+      } catch (e) {
+        console.log(e)
+        alert('Error updating place')
+      }
+      
+      // setMyPlaces(myPlaces.map(place => place._id.toString() !== placeId ? place : updatedPlace.data))
+
+    } else {
+      const placeUrl = getBaseUrl() + '/places'
+      const newPlace = {
+        name, address, photos, descriptions, facilities, guestsNum, price
+      }
+      try {
+        const savedPlace = await axios.post(placeUrl, newPlace, getTokenHeader())
+        clearForm()
+        setMyPlaces(myPlaces.concat(savedPlace.data))
+        setPageForm(false)
+  
+      } catch (e) {
+        console.log(e)
+        alert('Error saving new place')
+      }
     }
 
-    try {
-      const savedPlace = await axios.post(placeUrl, newPlace, getTokenHeader())
-      clearForm()
-      setMyPlaces(myPlaces.concat(savedPlace.data))
-      setPageForm(false)
-
-    } catch (e) {
-      console.log(e)
-      alert('Error saving new place')
-    }
+    
   }
 
   
@@ -94,7 +146,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
             setPhotos={setPhotos}
           />
 
-          <div className="d-flex flex-wrap my-2 gap-2">
+          <div className="d-flex flex-wrap my-3 gap-2">
             {
               photos.map((photo, i) => {
                 return (
@@ -114,13 +166,12 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
             <label htmlFor="" className="form-label">
               Descriptions
             </label>
-
-            <input 
+            <textarea
               type="text"
               className='form-control mb-3'
               value={descriptions}
               onChange={e => setDescriptions(e.target.value)}
-            />
+            ></textarea>
           </div>
 
           <AddFacilities 
@@ -155,7 +206,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
           </div>
 
           <button type="submit" className="btn btn-success">
-            Add Place
+            {placeId ? 'Update Place' : 'Add Place'}
           </button>
         </form>
       </div>

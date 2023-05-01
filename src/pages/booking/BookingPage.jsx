@@ -5,7 +5,8 @@ import { getBaseUrl } from "../../helper/getBaseUrl"
 import { getImgSrc } from "../../helper/getImgSrc"
 import LocationIcon from "../../svg-icons/LocationIcon"
 import GridIcon from "../../svg-icons/GridIcon"
-import BookingForm from "./BookingForm"
+import BookingForm from "./components/BookingForm"
+import PlaceTitleAddress from "./components/PlaceTitleAddress"
 
 
 const BookingPage = () => {
@@ -33,24 +34,7 @@ const BookingPage = () => {
   if (place) {
     return (
       <div className="my-3 overflow-hidden">
-        <div>
-          <h3>
-            {place.name}
-          </h3>
-        </div>
-
-        <div className="mt-2">
-          <span>
-            <LocationIcon />
-            <a 
-              href={"https://www.google.com/maps/search/?api=1&query=" + place.address}
-              className="ms-2 text-dark text-muted"
-              target="_blank"
-            >
-              {place.address}
-            </a>
-          </span>
-        </div>
+        <PlaceTitleAddress name={place.name} address={place.address} />
 
         <div className="position-relative">
           <div className="my-3 row rounded-3">
