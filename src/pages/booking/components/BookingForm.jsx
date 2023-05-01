@@ -18,6 +18,7 @@ const BookingForm = ({place}) => {
     e.preventDefault()
     const bookingObject = {
       bookedPlace: place._id.toString(),
+      placeName: place.name,
       placeOwner: place.owner.toString(),
       checkIn,
       checkOut,

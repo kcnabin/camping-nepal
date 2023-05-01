@@ -5,7 +5,7 @@ const EachPlace = ({place}) => {
 
   if (place) {
     return (
-        <div>
+        <div className="hover-zoom">
           <div className="ratio ratio-4x3">
             <img 
               src={getImgSrc(place.photos[0])}

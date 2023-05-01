@@ -16,6 +16,7 @@ const PlaceTitleAddress = ({name, address}) => {
           href={"https://www.google.com/maps/search/?api=1&query=" + address}
           className="ms-2 text-dark text-muted"
           target="_blank"
+          rel="noreferrer"
         >
           {address}
         </a>
