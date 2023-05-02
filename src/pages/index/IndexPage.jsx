@@ -29,8 +29,8 @@ const IndexPage = () => {
 
   return (
     <div>
-      <div className=" rounded-3">
-        <div className="row">
+      <div className="container">
+        <div className="row mt-3">
         {
           allPlaces.map((place, i) => {
             return (

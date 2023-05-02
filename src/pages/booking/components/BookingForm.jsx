@@ -1,9 +1,10 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { getBaseUrl } from "../../../helper/getBaseUrl"
 import { getTokenHeader } from "../../../helper/getTokenHeader"
 import { differenceInCalendarDays } from 'date-fns'
+import { DisplayInfoContext } from "../../../context/DisplayInfoContext"
 
 const BookingForm = ({place}) => {
   const [checkIn, setCheckIn] = useState('')
@@ -13,6 +14,7 @@ const BookingForm = ({place}) => {
   const [contactNo, setContactNo] = useState('')
 
   const navigate = useNavigate()
+  const { setInfo } = useContext(DisplayInfoContext)
 
   const bookPlace = async e => {
     e.preventDefault()
@@ -32,8 +34,8 @@ const BookingForm = ({place}) => {
       navigate('/account/bookings')
 
     } catch (e) {
-      console.log(e)
-      console.log('unable to book place')
+      setInfo(e.response.data.err)
+      setTimeout(() => setInfo(''), 3000)
     }
 
   }
@@ -42,7 +44,10 @@ const BookingForm = ({place}) => {
     <form onSubmit={bookPlace}>
       <div className="ms-md-5 shadow py-3 px-4 h-100">
         <div className="">
-          <span className="fs-5 fw-semibold">NRs {place.price}</span> / night
+          <span className="fs-5 fw-semibold">
+            NRs {place.price.toLocaleString()}
+          </span>
+          <span className="ms-1">/ night</span>
         </div>
 
         <div className="d-flex flex-wrap gap-3 mt-3">
@@ -56,7 +61,6 @@ const BookingForm = ({place}) => {
               value={checkIn}
               onChange={e => setCheckIn(e.target.value)}
               required
-              min={new Date().toLocaleDateString()}
             />
           </div>
 
@@ -89,7 +93,7 @@ const BookingForm = ({place}) => {
 
         <div className="mt-3">
           <span>
-            Name
+            Contact Name
           </span>
           <input
             type="text"
@@ -122,7 +126,10 @@ const BookingForm = ({place}) => {
                 Total Nights: {differenceInCalendarDays(new Date(checkOut), new Date(checkIn))}
               </div>
               <div className="mt-3">
-                Total Amount: NRs. {(differenceInCalendarDays(new Date(checkOut), new Date(checkIn))) * place.price}
+                Total Amount: NRs. {
+                  ((differenceInCalendarDays(new Date(checkOut), new Date(checkIn))) 
+                    * place.price).toLocaleString()
+                }
               </div>
             </div>
           ) : ""

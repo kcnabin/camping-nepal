@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import axios from 'axios'
 import { getBaseUrl } from "../../helper/getBaseUrl"
 import { getImgSrc } from "../../helper/getImgSrc"
-import LocationIcon from "../../svg-icons/LocationIcon"
 import GridIcon from "../../svg-icons/GridIcon"
 import BookingForm from "./components/BookingForm"
 import PlaceTitleAddress from "./components/PlaceTitleAddress"
-
+import { DisplayInfoContext } from "../../context/DisplayInfoContext"
+import OnlyPhotos from "./components/OnlyPhotos"
 
 const BookingPage = () => {
   const {placeId} = useParams()
   const [place, setPlace] = useState('')
+  const [allPhotos, setAllPhotos] = useState(false)
+  const { setInfo } = useContext(DisplayInfoContext)
 
   useEffect(() => {
     const fetchPlace = async () => {
@@ -22,8 +24,8 @@ const BookingPage = () => {
         setPlace(fetchedPlace.data)
 
       } catch (e) {
-        console.log(e)
-        alert('unable to fetch place')
+        setInfo(e.response.data.err)
+        setTimeout(() => setInfo(''), 3000)
       }
     }
 
@@ -32,8 +34,14 @@ const BookingPage = () => {
   }, [placeId])
 
   if (place) {
+    if (allPhotos) {
+      return (
+        <OnlyPhotos photos={place.photos} setAllPhotos={setAllPhotos} name={place.name} />
+      )
+    }
+
     return (
-      <div className="my-3 overflow-hidden">
+      <div className="my-3 overflow-hidden px-4 px-sm-0 container">
         <PlaceTitleAddress name={place.name} address={place.address} />
 
         <div className="position-relative">
@@ -69,8 +77,11 @@ const BookingPage = () => {
             </div>
           </div>
 
-          <div className="position-absolute bottom-0 end-0 mb-3 me-2 rounded-2 py-1 px-2 btn btn-success border text-white">
-            <div className="d-flex align-items-center">
+          <div className="btn position-absolute bottom-0 end-0 mb-3 me-2 rounded-2 py-1 px-2 btn btn-success border text-white">
+            <div
+              onClick={() => setAllPhotos(true)}
+              className="d-flex align-items-center"
+            >
               <GridIcon />
               <span className="ms-2">
                 More

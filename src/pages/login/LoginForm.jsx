@@ -10,6 +10,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
 
   const userContext = useContext(UserContext)
+  const { setInfo } = useContext(DisplayInfoContext)
   const navigate = useNavigate()
 
   const handleLogin = async e => {
@@ -32,7 +33,8 @@ const LoginForm = () => {
 
 
     } catch (e) {
-      alert(e.response.data.err)
+      setInfo(e.response.data.err)
+      setTimeout(() => setInfo(''), 3000)
     }
   }
 
