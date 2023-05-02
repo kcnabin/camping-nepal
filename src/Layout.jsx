@@ -1,15 +1,18 @@
 import { Outlet } from "react-router-dom"
 import Header from "./header/Header"
+import { DisplayInfoContextProvider } from "./context/DisplayInfoContext"
 
 
 const Layout = () => {
   return (
     <>
       <Header />
-      <div className="container p-0">
+
+      <DisplayInfoContextProvider>
         <Outlet />
-      </div>
+      </DisplayInfoContextProvider>
     </>
+
   )
 }
 

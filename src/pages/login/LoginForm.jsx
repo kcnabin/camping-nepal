@@ -3,6 +3,7 @@ import axios from 'axios'
 import { getBaseUrl } from "../../helper/getBaseUrl"
 import { UserContext } from "../../context/UserContext"
 import { useNavigate } from "react-router-dom"
+import { DisplayInfoContext } from "../../context/DisplayInfoContext"
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
@@ -31,7 +32,6 @@ const LoginForm = () => {
 
 
     } catch (e) {
-      console.log(e.response.data.err)
       alert(e.response.data.err)
     }
   }

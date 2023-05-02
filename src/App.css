@@ -5,6 +5,10 @@
   width: 120px;
 }
 
+.body-height {
+  min-height: calc(100vh - 68px);
+}
+
 .img-places {
   max-width: 200px;
 }

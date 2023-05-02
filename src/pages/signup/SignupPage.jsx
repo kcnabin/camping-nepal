@@ -3,7 +3,7 @@ import SignUpForm from "./SignUpForm"
 
 const SignupPage = () => {
   return (
-    <div className="d-flex min-vh-100">
+    <div className="d-flex body-height">
       <div className="flex-grow-1 d-flex justify-content-center align-items-center">
         <div>
           <p className=" h4 text-center">

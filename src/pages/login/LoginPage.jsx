@@ -3,10 +3,10 @@ import LoginForm from "./LoginForm"
 
 const LoginPage = () => {
   return (
-    <div className="d-flex min-vh-100">
-      <div className="flex-grow-1 d-flex justify-content-center align-items-center">
+    <div className='d-flex body-height'>
+      <div className='flex-grow-1 d-flex align-items-center justify-content-center'>
         <div>
-          <p className=" h4 text-center">
+          <p className="h4 text-center mb-4">
             Login
           </p>
 
