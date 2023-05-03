@@ -12,7 +12,7 @@ const MyBookings = () => {
     const fetchMyBooking = async () => {
       const bookingUrl = getBaseUrl() + '/booking'
       const {data} = await axios.get(bookingUrl, getTokenHeader())
-      setMyBooking(data)
+      setMyBooking([...data].reverse())
     }
     
     const fetchUserBooking = async () => {
@@ -43,7 +43,7 @@ const MyBookings = () => {
       <>
       
       <div className="container-fluid">
-        <h4 className="text-center mt-3">
+        <h4 className="text-center mt-3 mt-sm-0">
           {userBooking.length > 0 ? 'Booking from customers' : ''}
         </h4>
         <div className="row">
@@ -51,7 +51,7 @@ const MyBookings = () => {
             userBooking.map((booking, i) => {
               return (
                 <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
-                  <div className="border p-3">
+                  <div className="border p-3 rounded-4">
                     <BookingInfo booking={booking} />
 
                     <div className="mt-3">
@@ -82,7 +82,7 @@ const MyBookings = () => {
               return (
                 
                   <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
-                    <div className="border p-3">
+                    <div className="border p-3 rounded-4">
                       <BookingInfo booking={booking} />
 
                       <div className="mt-3">

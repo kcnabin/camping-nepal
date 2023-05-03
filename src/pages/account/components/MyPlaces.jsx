@@ -45,10 +45,10 @@ const MyPlaces = () => {
           onClick={() => setPageForm(true)}
           className="d-flex justify-content-center flex-grow-1 btn p-0"
         >
-          <div className="d-flex align-items-center bg-success text-white p-2 rounded-2">
+          <div className="d-flex align-items-center bg-success text-white py-2 px-3 rounded-4 mt-2 mt-sm-0">
             <AddIcon />
             <span className="ms-2">
-              Add Camp
+              Add New Camp
             </span>
           </div>
         </div>
@@ -59,11 +59,12 @@ const MyPlaces = () => {
               myPlaces.map(place => {
                 return (
                   
-                    <div key={place._id} className="col-12 col-sm-6 col-lg-4 my-4 h-100 hover-zoom">
+                    <div key={place._id} className="col-12 col-sm-6 col-lg-4 my-3 h-100 hover-zoom">
                       <div className="ratio ratio-4x3">
                         <img
                           src={getImgSrc(place.photos[1])}
                           className="img-fluid object-fit-cover rounded-4"
+                          alt={place.name}
                         />
                       </div>
 

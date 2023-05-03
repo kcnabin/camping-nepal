@@ -6,7 +6,7 @@ const EachPlace = ({place}) => {
 
   if (place) {
     return (
-        <div className="px-4 px-sm-0 mb-2">
+        <div className="px-5 px-sm-0 mb-2 hover-zoom">
           <div className="ratio ratio-4x3">
             <img 
               src={getImgSrc(place.photos[0])}
@@ -15,15 +15,15 @@ const EachPlace = ({place}) => {
             />
           </div>
 
-          <div className="p-2 border border-2">
+          <div className="p-2 border">
             <div className="fw-semibold mb-1 d-flex align-items-center">
               <HomeIcon />
-              <span className="ms-2">{place.name}</span>
+              <span className="ms-2 text-truncate">{place.name}</span>
             </div>
 
             <div className="mb-1 d-flex align-items-center">
               <LocationIcon />
-              <span className="ms-2">{place.address}</span>
+              <span className="ms-2 text-truncate">{place.address}</span>
             </div>
 
             <div className="">

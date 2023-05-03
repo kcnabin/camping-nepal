@@ -1,4 +1,3 @@
-import UtensilsIcon from "../../../../svg-icons/UtensilsIcon"
 
 
 const AddFacilities = ({facilities, setFacilities}) => {
@@ -17,47 +16,38 @@ const AddFacilities = ({facilities, setFacilities}) => {
     {
       title: 'Outdoor Cookware',
       name: 'cookware',
-      icon: <UtensilsIcon />
     }, 
     {
       title: 'Camping Light',
       name: 'light',
-      icon: <UtensilsIcon />
     }, 
     {
       title: 'Flashlight',
       name: 'flashlight',
-      icon: <UtensilsIcon />
     },
     {
       title: 'Portable Power',
       name: 'portable-power',
-      icon: <UtensilsIcon />
     }, 
     {
       title: 'Medicines',
       name: 'medicines',
-      icon: <UtensilsIcon />
     }, 
     {
       title: 'Insect Control',
       name: 'insect-control',
-      icon: <UtensilsIcon />
     }, 
     {
       title: 'Heater',
       name: 'heater',
-      icon: <UtensilsIcon />
     }, 
     {
       title: 'Cooler',
       name: 'cooler',
-      icon: <UtensilsIcon />
     }, 
     {
       title: 'Water Container',
       name: 'water-container',
-      icon: <UtensilsIcon />
     }
   ]
 
@@ -84,7 +74,7 @@ const AddFacilities = ({facilities, setFacilities}) => {
                     checked={facilities.includes(perk.name)}        
                   />
                   <span className="ms-2 d-flex align-items-center">
-                    {perk.icon}
+                    {/* {perk.icon} */}
                     <span className="ms-2">
                       {perk.title}
                     </span>

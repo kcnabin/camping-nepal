@@ -14,7 +14,7 @@ const Profile = () => {
   }
 
   return (
-    <>
+    <div className="my-2 px-2">
       <p>My Profile</p>
       <button 
         onClick={logoutUser}
@@ -22,7 +22,7 @@ const Profile = () => {
       >
         Log Out
       </button>
-    </>
+    </div>
   )
 }
 

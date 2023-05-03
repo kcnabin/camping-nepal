@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import AddFacilities from './AddFacilities'
@@ -7,6 +7,7 @@ import { getTokenHeader } from '../../../../helper/getTokenHeader'
 import AddPhotosByLink from './AddPhotosByLink'
 import { getImgSrc } from '../../../../helper/getImgSrc'
 import PhotoUploader from './PhotoUploader'
+import { DisplayInfoContext } from '../../../../context/DisplayInfoContext'
 
 const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const { placeId } = useParams()
@@ -20,6 +21,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const [placeToEdit, setPlaceToEdit] = useState([])
 
   const navigate = useNavigate()
+  const { setInfo } = useContext(DisplayInfoContext)
 
   useEffect(() => {
     if (placeId) {
@@ -67,7 +69,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
           name, address, photos, descriptions, facilities, guestsNum, price, owner: placeToEdit.owner
         }
     
-        const updatedPlace = await axios.put(updatePlaceUrl, placeToUpdate, getTokenHeader())
+        await axios.put(updatePlaceUrl, placeToUpdate, getTokenHeader())
         // setPageForm(false)
         clearForm()
         navigate('/account/places')
@@ -92,8 +94,9 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
         setPageForm(false)
   
       } catch (e) {
-        console.log(e)
-        alert('Error saving new place')
+        setInfo(e.response.data.err)
+        setTimeout(() => setInfo(''), 3000)
+        // alert('Error saving new place')
       }
     }
 
@@ -194,7 +197,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
 
           <div className="">
             <label htmlFor="" className="form-label">
-              Price per night ($)
+              Price per night (NRs)
             </label>
 
             <input 

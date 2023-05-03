@@ -13,7 +13,7 @@ const AccountPage = () => {
   }
 
   const getTab = (selected) => {
-    let styling = `py-1 px-3 m-2 rounded-pill border 
+    let styling = `py-1 px-3 m-3 rounded-pill border 
       border-dark bg-secondary text-white 
       text-decoration-none fw-semibold
       d-flex align-items-center
@@ -27,7 +27,7 @@ const AccountPage = () => {
 
   return (
     <div className="container">
-      <div className="d-flex flex-wrap justify-content-center">
+      <div className="d-none d-sm-flex flex-wrap justify-content-center">
         <Link to='/account' className={getTab('profile')}>
           <ProfileIcon size={"16px"} />
           <span className='ms-2'>Profile</span>

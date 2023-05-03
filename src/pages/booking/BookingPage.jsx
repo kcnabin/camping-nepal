@@ -51,7 +51,7 @@ const BookingPage = () => {
                 <img 
                   src={getImgSrc(place.photos[0])}
                   alt={place.name}
-                  className="rounded-3"
+                  className="rounded-3 object-fit-cover"
                 />
               </div>
             </div>

@@ -4,12 +4,13 @@ import { useContext } from 'react'
 import { UserContext } from '../context/UserContext'
 import LoginDropdown from './components/LoginDropdown'
 import UserMenuDropdown from './components/UserMenusDropdown'
+import MenuIcon from '../svg-icons/MenuIcon'
 
 const Header = () => {
   const {user} = useContext(UserContext)
   
   return (
-    <div className="bg-dark text-white d-flex justify-content-between py-3 px-3">
+    <div className="bg-dark text-white d-flex justify-content-between py-3 px-4 position-sticky top-0 z-10">
       <Link to='/' 
         className="d-flex align-items-center text-decoration-none text-white"
       >
@@ -25,20 +26,29 @@ const Header = () => {
         </span>
       </Link>
 
-      <div className='d-flex align-items-center dropdown'>
-        <div className='rounded-pill border bg-secondary border-white p-1' data-bs-toggle="dropdown">
-          <ProfileIcon size={'24px'} /> 
-        </div>
-        
+      <div className='d-flex align-items-center ' >
+
         {
           user ? (
-            <Link to='/account' className='fw-bold ms-2 d-none d-sm-block text-white text-decoration-none'>
+            <Link to='/account' className='fw-bold me-3 d-none d-sm-block text-white text-decoration-none'>
               {user.name}
             </Link>
           ) : ''
         }
 
-        <div className="dropdown-menu p-0 p-1">
+        <div className='d-flex align-items-center border py-1 px-2 border-2 rounded-pill dropdown' data-bs-toggle="dropdown">
+          <div className='text-white me-2'>
+            <MenuIcon />
+          </div>
+
+          <div className='bg-dark border-white rounded-circle'>
+            <ProfileIcon size={'24px'} /> 
+          </div>
+        </div>
+        
+        
+
+        <div className="dropdown-menu p-0">
           { user 
             ? <UserMenuDropdown /> 
             : <LoginDropdown />
