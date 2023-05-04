@@ -1,10 +1,10 @@
-import { useContext, useState } from "react"
-import { useNavigate } from 'react-router-dom'
+import { useContext, useEffect, useState } from "react"
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import { getBaseUrl } from "../../../helper/getBaseUrl"
 import { getTokenHeader } from "../../../helper/getTokenHeader"
-import { differenceInCalendarDays } from 'date-fns'
 import { DisplayInfoContext } from "../../../context/DisplayInfoContext"
+import { dateDifference } from "../../../helper/dateDifference"
 
 const BookingForm = ({place}) => {
   const [checkIn, setCheckIn] = useState('')
@@ -12,25 +12,66 @@ const BookingForm = ({place}) => {
   const [noOfPeople, setNoOfPeople] = useState('')
   const [name, setName] = useState((JSON.parse(localStorage.getItem('camper'))).name)
   const [contactNo, setContactNo] = useState('')
+  const [myBooking, setMyBooking] = useState({})
 
   const navigate = useNavigate()
+  const {bookingId} = useParams()
   const { setInfo } = useContext(DisplayInfoContext)
+
+  useEffect(() => {
+    if (bookingId) {
+      const fetchBooking = async () => {
+        const bookingUrl = getBaseUrl() + '/booking/' + bookingId
+        const {data} = await axios.get(bookingUrl, getTokenHeader())
+
+        setMyBooking(data)
+        setCheckIn((data.checkIn))
+        setCheckOut((data.checkOut))
+        setNoOfPeople(data.noOfPeople || 5)
+        setName(data.contactName)
+        setContactNo(data.contactNo)
+      }
+
+      try {
+        fetchBooking()
+
+      } catch (e) {
+        console.log(e)
+        setInfo(e.data.response.err)
+      }
+    }
+  }, [bookingId])
 
   const bookPlace = async e => {
     e.preventDefault()
+
     const bookingObject = {
       bookedPlace: place._id.toString(),
       placeName: place.name,
       placeOwner: place.owner.toString(),
-      checkIn,
-      checkOut,
+      checkIn: checkIn.toString(),
+      checkOut: checkOut.toString(),
       contactName: name,
       contactNo,
-      price: place.price
+      price: place.price,
+      noOfPeople
+    }
+
+    const bookingToUpdate = {
+      bookingBy: myBooking.bookingBy,
+      bookingConfirm: myBooking.bookingConfirm,
+      ...bookingObject
     }
 
     try {
-      await axios.post(getBaseUrl() + '/booking', bookingObject, getTokenHeader())
+      if (bookingId) {
+        const url = getBaseUrl() + '/booking/' + bookingId
+        await axios.put(url, bookingToUpdate, getTokenHeader())
+
+      } else {
+        const url = getBaseUrl() + '/booking'
+        await axios.post(url, bookingObject, getTokenHeader())
+      }
       navigate('/account/bookings')
 
     } catch (e) {
@@ -123,11 +164,11 @@ const BookingForm = ({place}) => {
           (checkIn !== '' && checkOut !== '') ? (
             <div className=" fw-bold">
               <div className="mt-3">
-                Total Nights: {differenceInCalendarDays(new Date(checkOut), new Date(checkIn))}
+                Total Nights: {dateDifference(checkOut, checkIn)}
               </div>
               <div className="mt-3">
                 Total Amount: NRs. {
-                  ((differenceInCalendarDays(new Date(checkOut), new Date(checkIn))) 
+                  (dateDifference(checkOut, checkIn) 
                     * place.price).toLocaleString()
                 }
               </div>
@@ -138,7 +179,7 @@ const BookingForm = ({place}) => {
 
         <div className="mt-3">
           <button type="submit" className="btn btn-success">
-            Reserve Place
+            {bookingId ? 'Update Booking' : 'Reserve Place'}
           </button>
         </div>
       </div>

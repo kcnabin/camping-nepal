@@ -1,4 +1,5 @@
 import { differenceInCalendarDays } from "date-fns"
+import { dateDifference } from "../../../../helper/dateDifference"
 
 
 const BookingInfo = ({booking}) => {
@@ -17,10 +18,10 @@ const BookingInfo = ({booking}) => {
         Booking To : {(new Date(booking.checkOut)).toLocaleDateString()}
       </div>
       <div className="mb-1">
-        Total Nights : {differenceInCalendarDays(new Date(booking.checkOut), new Date(booking.checkIn))}
+        Total Nights : { dateDifference(booking.checkOut, booking.checkIn)}
       </div>
       <div className="mb-1">
-        Booking Price: NRs {booking.price.toLocaleString()}
+        Booking Price: NRs {(booking.price * dateDifference(booking.checkOut, booking.checkIn)).toLocaleString()}
       </div>
 
     </div>

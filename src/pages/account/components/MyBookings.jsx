@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import axios from 'axios'
 import { getBaseUrl } from "../../../helper/getBaseUrl"
 import { getTokenHeader } from "../../../helper/getTokenHeader"
 import BookingInfo from "./booking/BookingInfo"
+import { useNavigate } from "react-router-dom"
+import { DisplayInfoContext } from "../../../context/DisplayInfoContext"
 
 const MyBookings = () => {
   const [myBooking, setMyBooking] = useState([])
   const [userBooking, setUserBooking] = useState([])
+  const navigate = useNavigate()
+  const {setInfo} = useContext(DisplayInfoContext)
 
   useEffect(() => {
     const fetchMyBooking = async () => {
@@ -26,23 +30,41 @@ const MyBookings = () => {
   }, [])
 
   const confirmBooking = async (bookingId) => {
-    try {
-      const userBookingUrl = getBaseUrl() + '/user-booking/confirm/' + bookingId
-      const {data} = await axios.put(userBookingUrl, {bookingConfirm: true}, getTokenHeader())
-      setUserBooking(userBooking.map(booking => booking._id.toString() !== bookingId ? booking : data ))
-
-    } catch (e) {
-      console.log(e)
-      alert('Unable to confirm booking')
+    if (window.confirm('Confirm Booking?')) {
+      try {
+        const userBookingUrl = getBaseUrl() + '/user-booking/confirm/' + bookingId
+        const {data} = await axios.put(userBookingUrl, {bookingConfirm: true}, getTokenHeader())
+        setUserBooking(userBooking.map(booking => booking._id.toString() !== bookingId ? booking : data ))
+  
+      } catch (e) {
+        console.log(e)
+        setInfo('Unable to confirm booking')
+      }
     }
   }
 
-  
+  const editBooking = (placeId, bookingId) => {
+    navigate(`/places/${placeId}/edit/${bookingId}`)
+  }
+
+  const deleteBooking = async (bookingId) => {
+    if (window.confirm('Want to delete booking?')) {
+      try {
+        const url = getBaseUrl() + '/booking/' + bookingId
+        await axios.delete(url, getTokenHeader())
+        setMyBooking(myBooking.filter(booking => booking._id.toString() !== bookingId))
+      } catch (e) {
+        console.log(e)
+        setInfo('Unable to delete booking')
+      }
+    }
+  } 
+
   if (myBooking || userBooking) {
     return (
       <>
       
-      <div className="container-fluid">
+      <div className="container-fluid mb-3">
         <h4 className="text-center mt-3 mt-sm-0">
           {userBooking.length > 0 ? 'Booking from customers' : ''}
         </h4>
@@ -72,7 +94,7 @@ const MyBookings = () => {
         </div>
       </div>
       
-      <h4 className="text-center mt-3">
+      <h4 className="text-center">
         {myBooking.length > 0 ? 'My Booking' : ''}
       </h4>
       <div className="container-fluid">
@@ -88,7 +110,7 @@ const MyBookings = () => {
                       <div className="mt-3">
                         <button 
                           className={booking.bookingConfirm ? "btn btn-success" : "btn btn-secondary"}
-                          onClick={() => {}}
+                          onClick={() => editBooking(booking.bookedPlace, booking._id)}
                           disabled={booking.bookingConfirm}
                         >
                           {booking.bookingConfirm ? 'Confirmed by Owner' : 'Edit'}
@@ -98,7 +120,7 @@ const MyBookings = () => {
                           booking.bookingConfirm ? '' : (
                             <button 
                               className="btn btn-danger ms-3"
-                              onClick={() => {}}
+                              onClick={() => deleteBooking(booking._id)}
                             >
                               Delete
                             </button>

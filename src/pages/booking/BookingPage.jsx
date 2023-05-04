@@ -8,12 +8,15 @@ import BookingForm from "./components/BookingForm"
 import PlaceTitleAddress from "./components/PlaceTitleAddress"
 import { DisplayInfoContext } from "../../context/DisplayInfoContext"
 import OnlyPhotos from "./components/OnlyPhotos"
+import { getTokenHeader } from "../../helper/getTokenHeader"
 
 const BookingPage = () => {
   const {placeId} = useParams()
+
   const [place, setPlace] = useState('')
   const [allPhotos, setAllPhotos] = useState(false)
   const { setInfo } = useContext(DisplayInfoContext)
+  
 
   useEffect(() => {
     const fetchPlace = async () => {
@@ -33,6 +36,7 @@ const BookingPage = () => {
     
   }, [placeId])
 
+  
   if (place) {
     if (allPhotos) {
       return (

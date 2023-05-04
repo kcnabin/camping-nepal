@@ -22,6 +22,7 @@ const App = () => {
           <Route path="/account/places/:placeId" element={<AddPlaceForm />} />
           
           <Route path="/places/:placeId" element={<BookingPage />} />
+          <Route path="/places/:placeId/edit/:bookingId" element={<BookingPage />} />
 
           <Route path="*" element={<NotFound />} />
         </Route>

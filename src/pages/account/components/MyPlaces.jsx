@@ -78,7 +78,7 @@ const MyPlaces = () => {
                           </div>
 
                           <div className="">
-                            NRs. <span className="fw-semibold fs-4">{place.price}</span> / night
+                            NRs. <span className="fw-semibold fs-4">{place.price.toLocaleString()}</span> / night
                           </div>
 
                         </div>
