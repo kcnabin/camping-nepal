@@ -95,9 +95,12 @@ const MyPlaces = () => {
                             Edit
                           </Link>
 
-                          <button className="btn btn-secondary text-white ms-2">
+                          <Link 
+                            to={'/places/'+ place._id.toString() + '/view'}
+                            className="btn btn-secondary text-white ms-2"
+                          >
                             View
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     </div>

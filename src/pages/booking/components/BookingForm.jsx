@@ -15,7 +15,9 @@ const BookingForm = ({place}) => {
   const [myBooking, setMyBooking] = useState({})
 
   const navigate = useNavigate()
-  const {bookingId} = useParams()
+  const { bookingId } = useParams()
+  const { action } = useParams()
+  console.log('action :', action);
   const { setInfo } = useContext(DisplayInfoContext)
 
   useEffect(() => {
@@ -178,7 +180,11 @@ const BookingForm = ({place}) => {
         
 
         <div className="mt-3">
-          <button type="submit" className="btn btn-success">
+          <button 
+            type="submit" 
+            className="btn btn-success"
+            disabled={action === 'view'}
+          >
             {bookingId ? 'Update Booking' : 'Reserve Place'}
           </button>
         </div>

@@ -51,11 +51,11 @@ const BookingPage = () => {
         <div className="position-relative">
           <div className="my-3 row rounded-3">
             <div className="col-12 col-sm-8 p-0">
-              <div className="h-100 w-100 ratio ratio-16x9">
+              <div className="h-100 w-100 ratio ratio-4x3">
                 <img 
                   src={getImgSrc(place.photos[0])}
                   alt={place.name}
-                  className="rounded-3 object-fit-cover"
+                  className="rounded-3 object-fit-cover img-fluid w-100"
                 />
               </div>
             </div>
