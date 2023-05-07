@@ -17,7 +17,6 @@ const BookingForm = ({place}) => {
   const navigate = useNavigate()
   const { bookingId } = useParams()
   const { action } = useParams()
-  console.log('action :', action);
   const { setInfo } = useContext(DisplayInfoContext)
 
   useEffect(() => {

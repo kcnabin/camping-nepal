@@ -39,8 +39,14 @@ const SignUpForm = () => {
       }, 4000)
       
     } catch (e) {
-      setInfo(e.response.data.err)
-      setTimeout(() => setInfo(''), 3000)
+      if (e.name === 'AxiosError' && !e.response) {
+        setInfo(e.message)
+        setTimeout(() => setInfo(''), 5000)
+      
+      } else {
+        setInfo(e.response.data.err)
+        setTimeout(() => setInfo(''), 5000)
+      }
     }
   }
 

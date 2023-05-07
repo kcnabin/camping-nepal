@@ -62,82 +62,87 @@ const MyBookings = () => {
 
   if (myBooking || userBooking) {
     return (
-      <>
+      <div className="mt-3 mt-sm-0">
       
-      <div className="container-fluid mb-3">
-        <h4 className="text-center mt-3 mt-sm-0">
-          {userBooking.length > 0 ? 'Booking from customers' : ''}
-        </h4>
-        <div className="row">
-          {
-            userBooking.map((booking, i) => {
-              return (
-                <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
-                  <div className="border p-3 rounded-4">
-                    <BookingInfo booking={booking} />
+      { userBooking.length > 0 && 
+          <div className="container-fluid mb-3">
+            <h4 className="mt-3 mt-sm-0 ps-sm-3">
+              Booking from customers
+            </h4>
+            <div className="row">
+              {
+                userBooking.map((booking, i) => {
+                  return (
+                    <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
+                      <div className="border p-3 rounded-4">
+                        <BookingInfo booking={booking} />
 
-                    <div className="mt-3">
-                      <button 
-                        className="btn btn-success"
-                        onClick={() => confirmBooking(booking._id)}
-                        disabled={booking.bookingConfirm}
-                      >
-                        {booking.bookingConfirm ? 'Booking Confirmed' : 'Confirm'}
-                      </button>
+                        <div className="mt-3">
+                          <button 
+                            className="btn btn-success"
+                            onClick={() => confirmBooking(booking._id)}
+                            disabled={booking.bookingConfirm}
+                          >
+                            {booking.bookingConfirm ? 'Booking Confirmed' : 'Confirm'}
+                          </button>
 
-                    </div>
-                  </div>
-                </div>  
-              )
-            })
-          }
-        </div>
-      </div>
+                        </div>
+                      </div>
+                    </div>  
+                  )
+                })
+              }
+            </div>
+          </div>
+      }
       
-      <h4 className="text-center">
-        {myBooking.length > 0 ? 'My Booking' : ''}
-      </h4>
-      <div className="container-fluid">
-        <div className="row">
-          {
-            myBooking.map((booking, i) => {
-              return (
-                
-                  <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
-                    <div className="border p-3 rounded-4">
-                      <BookingInfo booking={booking} />
+      {myBooking.length > 0 && 
+        <div className="container-fluid">
+          <h4 className="">
+            My Booking
+          </h4>
+        
+          <div className="row">
+            {
+              myBooking.map((booking, i) => {
+                return (
+                  
+                    <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
+                      <div className="border p-3 rounded-4">
+                        <BookingInfo booking={booking} />
 
-                      <div className="mt-3">
-                        <button 
-                          className={booking.bookingConfirm ? "btn btn-success" : "btn btn-secondary"}
-                          onClick={() => editBooking(booking.bookedPlace, booking._id)}
-                          disabled={booking.bookingConfirm}
-                        >
-                          {booking.bookingConfirm ? 'Confirmed by Owner' : 'Edit'}
-                        </button>
+                        <div className="mt-3">
+                          <button 
+                            className={booking.bookingConfirm ? "btn btn-success" : "btn btn-secondary"}
+                            onClick={() => editBooking(booking.bookedPlace, booking._id)}
+                            disabled={booking.bookingConfirm}
+                          >
+                            {booking.bookingConfirm ? 'Confirmed by Owner' : 'Edit'}
+                          </button>
 
-                        {
-                          booking.bookingConfirm ? '' : (
-                            <button 
-                              className="btn btn-danger ms-3"
-                              onClick={() => deleteBooking(booking._id)}
-                            >
-                              Delete
-                            </button>
-                          )
-                        }
+                          {
+                            booking.bookingConfirm ? '' : (
+                              <button 
+                                className="btn btn-danger ms-3"
+                                onClick={() => deleteBooking(booking._id)}
+                              >
+                                Delete
+                              </button>
+                            )
+                          }
 
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  
-              )
-            })
-          }
+                    
+                )
+              })
+            }
+          </div>
         </div>
-      </div>
+      }
       
-      </>
+      </div>
     )
   }
 

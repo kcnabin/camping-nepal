@@ -33,8 +33,15 @@ const LoginForm = () => {
 
 
     } catch (e) {
-      setInfo(e.response.data.err)
-      setTimeout(() => setInfo(''), 3000)
+      console.log(e)
+      if (e.name === 'AxiosError' && !e.response) {
+        setInfo('Error connecting to Server!')
+        setTimeout(() => setInfo(''), 5000)
+      
+      } else {
+        setInfo(e.response.data.err)
+        setTimeout(() => setInfo(''), 5000)
+      }
     }
   }
 

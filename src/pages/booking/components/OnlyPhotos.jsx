@@ -3,7 +3,7 @@ import { getImgSrc } from "../../../helper/getImgSrc"
 
 const OnlyPhotos = ({ setAllPhotos, photos, name }) => {
   return (
-    <div className="container">
+    <div className="container px-3 px-sm-0">
       <div className="mt-2 d-flex justify-content-between align-items-center position-sticky top-0 bg-white">
         <div className="h4 m-0 p-0">
           {name}
@@ -23,7 +23,7 @@ const OnlyPhotos = ({ setAllPhotos, photos, name }) => {
               <img 
                 src={getImgSrc(photo)}
                 alt={photo}
-                className="mb-3 img-fluid rounded-4"
+                className="mb-3 w-100 img-fluid rounded-4"
                 key={photo}
               />
             )

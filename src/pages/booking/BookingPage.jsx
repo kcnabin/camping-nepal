@@ -8,7 +8,6 @@ import BookingForm from "./components/BookingForm"
 import PlaceTitleAddress from "./components/PlaceTitleAddress"
 import { DisplayInfoContext } from "../../context/DisplayInfoContext"
 import OnlyPhotos from "./components/OnlyPhotos"
-import { getTokenHeader } from "../../helper/getTokenHeader"
 
 const BookingPage = () => {
   const {placeId} = useParams()
@@ -17,7 +16,6 @@ const BookingPage = () => {
   const [allPhotos, setAllPhotos] = useState(false)
   const { setInfo } = useContext(DisplayInfoContext)
   
-
   useEffect(() => {
     const fetchPlace = async () => {
       const placeUrl = getBaseUrl() + '/places/' + placeId
@@ -27,8 +25,11 @@ const BookingPage = () => {
         setPlace(fetchedPlace.data)
 
       } catch (e) {
+        if (!e.response) {
+          return setInfo(e.message)
+        }
         setInfo(e.response.data.err)
-        setTimeout(() => setInfo(''), 3000)
+        setTimeout(() => setInfo(''), 5000)
       }
     }
 
@@ -45,11 +46,11 @@ const BookingPage = () => {
     }
 
     return (
-      <div className="my-3 overflow-hidden px-4 px-sm-0 container">
+      <div className="my-3 overflow-hidden px-3 px-sm-0 container">
         <PlaceTitleAddress name={place.name} address={place.address} />
 
-        <div className="position-relative">
-          <div className="my-3 row rounded-3">
+        <div className="position-relative overflow-hidden rounded-3 my-3">
+          <div className="row overflow-hidden">
             <div className="col-12 col-sm-8 p-0">
               <div className="h-100 w-100 ratio ratio-4x3">
                 <img 
@@ -62,7 +63,7 @@ const BookingPage = () => {
 
             <div className="col-sm-4 pe-0">
               <div className="d-none d-sm-flex flex-column">
-                <div className="overflow-hidden">
+                <div className="overflow-hidden ratio ratio-4x3">
                   <img 
                     src={getImgSrc(place.photos[1])}
                     alt={place.name}
@@ -70,7 +71,7 @@ const BookingPage = () => {
                   />
                 </div>
 
-                <div className="mt-3  ">
+                <div className="mt-3 ratio ratio-4x3">
                   <img 
                     src={getImgSrc(place.photos[2])}
                     alt={place.name}
@@ -81,7 +82,7 @@ const BookingPage = () => {
             </div>
           </div>
 
-          <div className="btn position-absolute bottom-0 end-0 mb-3 me-2 rounded-2 py-1 px-2 btn btn-success border text-white">
+          <div className="btn position-absolute bottom-0 end-0 mb-3 me-3 rounded-2 py-1 px-2 btn btn-success border text-white">
             <div
               onClick={() => setAllPhotos(true)}
               className="d-flex align-items-center"

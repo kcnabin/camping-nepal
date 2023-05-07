@@ -26,7 +26,7 @@ const AccountPage = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container p-0">
       <div className="d-none d-sm-flex flex-wrap justify-content-center">
         <Link to='/account' className={getTab('profile')}>
           <ProfileIcon size={"16px"} />

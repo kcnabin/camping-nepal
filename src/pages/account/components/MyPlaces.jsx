@@ -59,7 +59,9 @@ const MyPlaces = () => {
               myPlaces.map(place => {
                 return (
                   
-                    <div key={place._id} className="col-12 col-sm-6 col-lg-4 my-3 h-100 hover-zoom">
+                    <Link key={place._id} className="col-12 col-sm-6 col-lg-4 my-3 h-100 text-decoration-none text-dark"
+                      to={'/places/'+ place._id.toString() + '/view'}
+                    >
                       <div className="ratio ratio-4x3">
                         <img
                           src={getImgSrc(place.photos[1])}
@@ -103,7 +105,7 @@ const MyPlaces = () => {
                           </Link>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                     
                 )
               })

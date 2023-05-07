@@ -1,13 +1,15 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { getBaseUrl } from "../../helper/getBaseUrl"
 import { Link, useNavigate } from "react-router-dom"
 import { getTokenHeader } from "../../helper/getTokenHeader"
 import EachPlace from "./EachPlace"
+import { DisplayInfoContext } from "../../context/DisplayInfoContext"
 
 const IndexPage = () => {
   const [allPlaces, setAllPlaces] = useState([])
-  const indexClass = `col-12 col-sm-6 col-md-4 p-0 py-1 px-sm-3 mb-2 text-dark text-decoration-none`
+  const indexClass = `col-12 col-sm-6 col-lg-4 p-0 px-sm-3 my-2 text-dark text-decoration-none`
+  const {setInfo} = useContext(DisplayInfoContext)
 
   const navigate = useNavigate()
 
@@ -16,20 +18,27 @@ const IndexPage = () => {
     
     const fetchAllPlaces = async () => {
       const url = getBaseUrl() + '/places/all'
-      const {data} = await axios.get(url, getTokenHeader())
-      setAllPlaces(data)
+      try {
+        const {data} = await axios.get(url, getTokenHeader())
+        setAllPlaces(data)
+        
+      } catch (e) {
+        console.log(e)
+        setInfo(e.message)
+      }
     }
     
     if (!user) {
       navigate('/login')
+
     } else {
-      fetchAllPlaces()
+        fetchAllPlaces()
     }
   }, [navigate])
 
   return (
     <div>
-      <div className="container">
+      <div className="container overflow-hidden">
         <div className="row mt-3">
         {
           allPlaces.map((place, i) => {

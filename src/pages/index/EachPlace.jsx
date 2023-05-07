@@ -6,7 +6,7 @@ const EachPlace = ({place}) => {
 
   if (place) {
     return (
-        <div className="px-5 px-sm-0 mb-2 hover-zoom">
+        <div className="px-3 px-sm-0 hover-zoom">
           <div className="ratio ratio-4x3">
             <img 
               src={getImgSrc(place.photos[0])}
