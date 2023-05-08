@@ -5,6 +5,7 @@ import { getTokenHeader } from "../../../helper/getTokenHeader"
 import BookingInfo from "./booking/BookingInfo"
 import { useNavigate } from "react-router-dom"
 import { DisplayInfoContext } from "../../../context/DisplayInfoContext"
+import { handleError } from "../../../helper/handleError"
 
 const MyBookings = () => {
   const [myBooking, setMyBooking] = useState([])
@@ -13,32 +14,44 @@ const MyBookings = () => {
   const {setInfo} = useContext(DisplayInfoContext)
 
   useEffect(() => {
+    const bookingUrl = getBaseUrl() + '/booking'
+    const userBookingUrl = getBaseUrl() + '/user-booking'
+
     const fetchMyBooking = async () => {
-      const bookingUrl = getBaseUrl() + '/booking'
-      const {data} = await axios.get(bookingUrl, getTokenHeader())
-      setMyBooking([...data].reverse())
+      try {
+        const {data} = await axios.get(bookingUrl, getTokenHeader())
+        setMyBooking(data.reverse())
+
+      } catch (e) {
+        handleError(e, setInfo)
+      }
     }
     
     const fetchUserBooking = async () => {
-      const userBookingUrl = getBaseUrl() + '/user-booking'
-      const {data} = await axios.get(userBookingUrl, getTokenHeader())
-      setUserBooking([...data].reverse())
+      try {
+        const {data} = await axios.get(userBookingUrl, getTokenHeader())
+        setUserBooking(data.reverse())
+
+      } catch (e) {
+        handleError(e, setInfo)
+      }
     }
 
     fetchMyBooking()
     fetchUserBooking()
+
   }, [])
 
   const confirmBooking = async (bookingId) => {
+    const userBookingUrl = getBaseUrl() + '/user-booking/confirm/' + bookingId
+
     if (window.confirm('Confirm Booking?')) {
       try {
-        const userBookingUrl = getBaseUrl() + '/user-booking/confirm/' + bookingId
         const {data} = await axios.put(userBookingUrl, {bookingConfirm: true}, getTokenHeader())
         setUserBooking(userBooking.map(booking => booking._id.toString() !== bookingId ? booking : data ))
   
       } catch (e) {
-        console.log(e)
-        setInfo('Unable to confirm booking')
+        handleError(e, setInfo)
       }
     }
   }
@@ -48,14 +61,15 @@ const MyBookings = () => {
   }
 
   const deleteBooking = async (bookingId) => {
+    const url = getBaseUrl() + '/booking/' + bookingId
+
     if (window.confirm('Want to delete booking?')) {
       try {
-        const url = getBaseUrl() + '/booking/' + bookingId
         await axios.delete(url, getTokenHeader())
         setMyBooking(myBooking.filter(booking => booking._id.toString() !== bookingId))
+
       } catch (e) {
-        console.log(e)
-        setInfo('Unable to delete booking')
+        handleError(e, setInfo)
       }
     }
   } 
@@ -98,7 +112,7 @@ const MyBookings = () => {
       
       {myBooking.length > 0 && 
         <div className="container-fluid">
-          <h4 className="">
+          <h4 className="mt-3 mt-sm-0 ps-sm-3">
             My Booking
           </h4>
         

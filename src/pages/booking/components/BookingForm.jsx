@@ -5,6 +5,7 @@ import { getBaseUrl } from "../../../helper/getBaseUrl"
 import { getTokenHeader } from "../../../helper/getTokenHeader"
 import { DisplayInfoContext } from "../../../context/DisplayInfoContext"
 import { dateDifference } from "../../../helper/dateDifference"
+import { handleError } from "../../../helper/handleError"
 
 const BookingForm = ({place}) => {
   const [checkIn, setCheckIn] = useState('')
@@ -22,25 +23,25 @@ const BookingForm = ({place}) => {
   useEffect(() => {
     if (bookingId) {
       const fetchBooking = async () => {
-        const bookingUrl = getBaseUrl() + '/booking/' + bookingId
-        const {data} = await axios.get(bookingUrl, getTokenHeader())
+        try {
+          const bookingUrl = getBaseUrl() + '/booking/' + bookingId
+          const {data} = await axios.get(bookingUrl, getTokenHeader())
 
-        setMyBooking(data)
-        setCheckIn((data.checkIn))
-        setCheckOut((data.checkOut))
-        setNoOfPeople(data.noOfPeople || 5)
-        setName(data.contactName)
-        setContactNo(data.contactNo)
+          setMyBooking(data)
+          setCheckIn((data.checkIn))
+          setCheckOut((data.checkOut))
+          setNoOfPeople(data.noOfPeople || 5)
+          setName(data.contactName)
+          setContactNo(data.contactNo)
+
+        } catch (e) {
+          handleError(e, setInfo)
+        }
       }
 
-      try {
-        fetchBooking()
+      fetchBooking()
+    } 
 
-      } catch (e) {
-        console.log(e)
-        setInfo(e.data.response.err)
-      }
-    }
   }, [bookingId])
 
   const bookPlace = async e => {
@@ -64,22 +65,25 @@ const BookingForm = ({place}) => {
       ...bookingObject
     }
 
-    try {
-      if (bookingId) {
+    if (bookingId) {
+      try {
         const url = getBaseUrl() + '/booking/' + bookingId
         await axios.put(url, bookingToUpdate, getTokenHeader())
 
-      } else {
+      } catch (e) {
+        return handleError(e, setInfo)
+      }
+
+    } else {
+      try {
         const url = getBaseUrl() + '/booking'
         await axios.post(url, bookingObject, getTokenHeader())
+
+      } catch (e) {
+        return handleError(e, setInfo)
       }
-      navigate('/account/bookings')
-
-    } catch (e) {
-      setInfo(e.response.data.err)
-      setTimeout(() => setInfo(''), 3000)
     }
-
+    navigate('/account/bookings')
   }
   
   return (
@@ -152,7 +156,7 @@ const BookingForm = ({place}) => {
           </span>
           <div>
             <input
-              type="text"
+              type="number"
               className="form-control border border-secondary mt-2"
               value={contactNo}
               onChange={e => setContactNo(e.target.value)}

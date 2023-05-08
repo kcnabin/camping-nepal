@@ -4,6 +4,7 @@ import { getBaseUrl } from "../../helper/getBaseUrl"
 import { UserContext } from "../../context/UserContext"
 import { useNavigate } from "react-router-dom"
 import { DisplayInfoContext } from "../../context/DisplayInfoContext"
+import { handleError } from "../../helper/handleError"
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
@@ -30,18 +31,9 @@ const LoginForm = () => {
       setEmail('')
       setPassword('')
       navigate('/')
-
-
-    } catch (e) {
-      console.log(e)
-      if (e.name === 'AxiosError' && !e.response) {
-        setInfo('Error connecting to Server!')
-        setTimeout(() => setInfo(''), 5000)
       
-      } else {
-        setInfo(e.response.data.err)
-        setTimeout(() => setInfo(''), 5000)
-      }
+    } catch (e) {
+      handleError(e, setInfo)
     }
   }
 
@@ -52,7 +44,7 @@ const LoginForm = () => {
           Email
         </label>
         <input 
-          type="text"
+          type="email"
           className="form-control"
           value={email}
           onChange={e => setEmail(e.target.value)}

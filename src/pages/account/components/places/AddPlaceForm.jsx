@@ -8,6 +8,7 @@ import AddPhotosByLink from './AddPhotosByLink'
 import { getImgSrc } from '../../../../helper/getImgSrc'
 import PhotoUploader from './PhotoUploader'
 import { DisplayInfoContext } from '../../../../context/DisplayInfoContext'
+import { handleError } from '../../../../helper/handleError'
 
 const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const { placeId } = useParams()
@@ -39,8 +40,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
           setPrice(data.price)
 
         } catch (e) {
-          console.log(e)
-          alert('unable to fetch place for edit')
+          handleError(e, setInfo)
         }
         
       }
@@ -57,6 +57,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
     setFacilities([])
     setGuestNum('')
     setPrice('')
+    setPlaceToEdit([])
   }
 
   const addNewCamp = async e => {
@@ -76,11 +77,8 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
         
 
       } catch (e) {
-        console.log(e)
-        alert('Error updating place')
+        handleError(e, setInfo)
       }
-      
-      // setMyPlaces(myPlaces.map(place => place._id.toString() !== placeId ? place : updatedPlace.data))
 
     } else {
       const placeUrl = getBaseUrl() + '/places'
@@ -94,16 +92,11 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
         setPageForm(false)
   
       } catch (e) {
-        setInfo(e.response.data.err)
-        setTimeout(() => setInfo(''), 3000)
-        // alert('Error saving new place')
+        handleError(e, setInfo)
       }
     }
 
-    
   }
-
-  
 
   return (
     <div className='container'>
@@ -214,15 +207,6 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
         </form>
       </div>
 
-      {/* <div>
-        <button
-        type='button'
-          onClick={() => setPageForm(false)}
-          className="btn btn-danger mt-2"
-        >
-          Cancel
-        </button>
-      </div> */}
     </div>
   )
 }

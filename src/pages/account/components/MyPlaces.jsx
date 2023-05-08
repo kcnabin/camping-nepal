@@ -1,23 +1,30 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import AddIcon from "../../../svg-icons/AddIcon"
 import AddPlaceForm from "./places/AddPlaceForm"
 import axios from "axios"
 import { getBaseUrl } from "../../../helper/getBaseUrl"
 import { getTokenHeader } from "../../../helper/getTokenHeader"
-// import EachPlace from "../../index/EachPlace"
 import { getImgSrc } from "../../../helper/getImgSrc"
-import { Link } from "react-router-dom"
-
+import { Link, useNavigate } from "react-router-dom"
+import { handleError } from "../../../helper/handleError"
+import { DisplayInfoContext } from "../../../context/DisplayInfoContext"
 
 const MyPlaces = () => {
   const [pageForm, setPageForm] = useState(false)
   const [myPlaces, setMyPlaces] = useState([])
 
+  const { setInfo } = useContext(DisplayInfoContext)
+
   useEffect(() => {
     const fetchMyPlaces = async () => {
-      const placeUrl = getBaseUrl() + '/places'
-      const {data} = await axios.get(placeUrl, getTokenHeader())
-      setMyPlaces(data)
+      try {
+        const placeUrl = getBaseUrl() + '/places'
+        const {data} = await axios.get(placeUrl, getTokenHeader())
+        setMyPlaces(data)
+      
+      } catch (e) {
+        handleError(e, setInfo)
+      }
     }
     fetchMyPlaces()
   }, [])
@@ -27,13 +34,12 @@ const MyPlaces = () => {
 
     if (window.confirm(msg)) {
       try {
-        const deleteUrl = getBaseUrl() + '/places/' + placeId
+        const deleteUrl = getBaseUrl() + '/places/' + placeId.toString()
         await axios.delete(deleteUrl, getTokenHeader())
-        setMyPlaces(myPlaces.filter(place => place._id.toString() !== placeId))
+        setMyPlaces(myPlaces.filter(place => place._id.toString() !== placeId.toString()))
 
       } catch (e) {
-        console.log(e)
-        alert('Error deleting place')
+        return handleError(e, setInfo)
       }
     }
   }
@@ -59,8 +65,8 @@ const MyPlaces = () => {
               myPlaces.map(place => {
                 return (
                   
-                    <Link key={place._id} className="col-12 col-sm-6 col-lg-4 my-3 h-100 text-decoration-none text-dark"
-                      to={'/places/'+ place._id.toString() + '/view'}
+                    <div key={place._id} className="col-12 col-sm-6 col-lg-4 my-3 h-100 text-decoration-none text-dark"
+                      
                     >
                       <div className="ratio ratio-4x3">
                         <img
@@ -93,7 +99,9 @@ const MyPlaces = () => {
                             Delete
                           </button>
 
-                          <Link to={'/account/places/' + place._id.toString()} className="btn btn-info text-white ms-2">
+                          <Link className="btn btn-info text-white ms-2"
+                            to={'/account/places/' + place._id.toString()}
+                          >
                             Edit
                           </Link>
 
@@ -105,7 +113,7 @@ const MyPlaces = () => {
                           </Link>
                         </div>
                       </div>
-                    </Link>
+                    </div>
                     
                 )
               })

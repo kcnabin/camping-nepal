@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { getBaseUrl } from "../../helper/getBaseUrl"
 import { DisplayInfoContext } from "../../context/DisplayInfoContext"
+import { handleError } from "../../helper/handleError"
 
 const SignUpForm = () => {
   const [fullName, setFullName] = useState('')
@@ -18,7 +19,7 @@ const SignUpForm = () => {
     setPassword('')
   }
 
-  const signupUser = async e => {
+  const signupUser = async (e) => {
     e.preventDefault()
 
     const signupUrl = getBaseUrl() + '/signup'
@@ -39,19 +40,11 @@ const SignUpForm = () => {
       }, 4000)
       
     } catch (e) {
-      if (e.name === 'AxiosError' && !e.response) {
-        setInfo(e.message)
-        setTimeout(() => setInfo(''), 5000)
-      
-      } else {
-        setInfo(e.response.data.err)
-        setTimeout(() => setInfo(''), 5000)
-      }
+      handleError(e, setInfo)
     }
   }
 
   return (
-    <>
     <form onSubmit={signupUser}>
       
       <div className="mb-3">
@@ -103,7 +96,6 @@ const SignUpForm = () => {
         Signup
       </button>
     </form>
-    </>
   )
 }
 

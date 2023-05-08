@@ -1,8 +1,12 @@
 import { getBaseUrl } from "../../../../helper/getBaseUrl"
 import axios from 'axios'
-
+import { handleError } from "../../../../helper/handleError"
+import { useContext } from "react"
+import { DisplayInfoContext } from "../../../../context/DisplayInfoContext"
 
 const PhotoUploader = ({ photos, setPhotos }) => {
+  const { setInfo } = useContext(DisplayInfoContext)
+
   const uploadFiles = async e => {
     const files = e.target.files
     const data = new FormData()
@@ -19,15 +23,12 @@ const PhotoUploader = ({ photos, setPhotos }) => {
       setPhotos([...photos, ...res.data])
 
     } catch (e) {
-      console.log(e)
-      alert(`Can't upload from device`)
+      handleError(e, setInfo)
     }
-
 
   }
 
   return (
-    <>
       <label className="btn border border-secondary mt-2 p-4">
         <input 
           type="file"
@@ -39,7 +40,6 @@ const PhotoUploader = ({ photos, setPhotos }) => {
           Upload from device
         </span>
       </label>
-    </>
   )
 }
 

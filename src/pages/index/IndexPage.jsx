@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { getTokenHeader } from "../../helper/getTokenHeader"
 import EachPlace from "./EachPlace"
 import { DisplayInfoContext } from "../../context/DisplayInfoContext"
+import { handleError } from "../../helper/handleError"
 
 const IndexPage = () => {
   const [allPlaces, setAllPlaces] = useState([])
@@ -23,8 +24,7 @@ const IndexPage = () => {
         setAllPlaces(data)
         
       } catch (e) {
-        console.log(e)
-        setInfo(e.message)
+        handleError(e, setInfo)
       }
     }
     
@@ -37,19 +37,17 @@ const IndexPage = () => {
   }, [navigate])
 
   return (
-    <div>
-      <div className="container overflow-hidden">
-        <div className="row mt-3">
-        {
-          allPlaces.map((place, i) => {
-            return (
-              <Link to={`/places/${place._id}`} className={indexClass} key={place._id}>
-                <EachPlace place={place} />
-              </Link>
-            )
-          })
-        }
-        </div>
+    <div className="container overflow-hidden">
+      <div className="row mt-3">
+      {
+        allPlaces.map((place, i) => {
+          return (
+            <Link to={`/places/${place._id}`} className={indexClass} key={place._id}>
+              <EachPlace place={place} />
+            </Link>
+          )
+        })
+      }
       </div>
     </div>
   )
