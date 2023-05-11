@@ -7,13 +7,17 @@ import NotFound from "./pages/not-found/NotFound"
 import AccountPage from "./pages/account/AccountPage"
 import BookingPage from "./pages/booking/BookingPage"
 import AddPlaceForm from "./pages/account/components/places/AddPlaceForm"
+import { useContext } from "react"
+import { UserContext } from "./context/UserContext"
 
 const App = () => {
+  const {user} = useContext(UserContext)
+
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />} >
-          <Route index element={<IndexPage />} />
+          <Route index element={user ? <IndexPage /> : <LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/account" element={<AccountPage />} />

@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
-import Profile from './components/Profile'
-import MyBookings from './components/MyBookings'
-import MyPlaces from './components/MyPlaces'
+import Profile from './Profile'
+import Bookings from './Bookings'
+import MyPlaces from './MyPlaces'
 import ProfileIcon from '../../svg-icons/ProfileIcon'
 import BookingIcon from '../../svg-icons/BookingIcon'
 
@@ -36,21 +36,19 @@ const AccountPage = () => {
         <Link to='/account/bookings' className={getTab('bookings')}>
           <BookingIcon size={"16px"} />
           <span className='ms-2'>My Bookings</span>
-          
         </Link>
 
         <Link to='/account/places' className={getTab('places')}>
-          
-            <div className='icon d-flex align-items-center'>
-              <img 
-                src='/icons/camp.png'
-                alt='camp icon'
-                className='w-100'
-              />
-            </div>
-          
+          <div className='icon d-flex align-items-center'>
+            <img 
+              src='/icons/camp.png'
+              alt='camp icon'
+              className='w-100'
+            />
+          </div>
           <span className='ms-2'>My Places</span>
         </Link>
+
       </div>
 
       <div className="">
@@ -60,7 +58,7 @@ const AccountPage = () => {
         }
 
         {subpage === 'bookings' 
-          ? ( <MyBookings /> ) 
+          ? ( <Bookings /> ) 
           : ''
         }
 

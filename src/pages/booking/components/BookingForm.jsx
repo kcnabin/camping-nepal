@@ -11,7 +11,7 @@ const BookingForm = ({place}) => {
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [noOfPeople, setNoOfPeople] = useState('')
-  const [name, setName] = useState((JSON.parse(localStorage.getItem('camper'))).name)
+  const [name, setName] = useState('')
   const [contactNo, setContactNo] = useState('')
   const [myBooking, setMyBooking] = useState({})
 
@@ -20,6 +20,7 @@ const BookingForm = ({place}) => {
   const { action } = useParams()
   const { setInfo } = useContext(DisplayInfoContext)
 
+  // useFetchData hook or any hook can not be called conditionally
   useEffect(() => {
     if (bookingId) {
       const fetchBooking = async () => {
@@ -42,7 +43,7 @@ const BookingForm = ({place}) => {
       fetchBooking()
     } 
 
-  }, [bookingId])
+  }, [bookingId, setInfo])
 
   const bookPlace = async e => {
     e.preventDefault()
@@ -83,12 +84,14 @@ const BookingForm = ({place}) => {
         return handleError(e, setInfo)
       }
     }
+
     navigate('/account/bookings')
   }
   
   return (
     <form onSubmit={bookPlace}>
       <div className="ms-md-5 shadow py-3 px-4 h-100">
+
         <div className="">
           <span className="fs-5 fw-semibold">
             NRs {place.price.toLocaleString()}
@@ -191,6 +194,7 @@ const BookingForm = ({place}) => {
             {bookingId ? 'Update Booking' : 'Reserve Place'}
           </button>
         </div>
+        
       </div>
     </form>
     

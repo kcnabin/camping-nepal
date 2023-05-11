@@ -6,7 +6,7 @@ const SignupPage = () => {
     <div className="d-flex body-height">
       <div className="flex-grow-1 d-flex justify-content-center align-items-center">
         <div>
-          <p className=" h4 text-center">
+          <p className="h4 text-center">
             Sign Up
           </p>
 

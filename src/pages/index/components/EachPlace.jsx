@@ -1,6 +1,6 @@
-import { getImgSrc } from "../../helper/getImgSrc"
-import HomeIcon from "../../svg-icons/HomeIcon"
-import LocationIcon from "../../svg-icons/LocationIcon"
+import { getImgSrc } from "../../../helper/getImgSrc"
+import HomeIcon from "../../../svg-icons/HomeIcon"
+import LocationIcon from "../../../svg-icons/LocationIcon"
 
 const EachPlace = ({place}) => {
 
@@ -23,7 +23,7 @@ const EachPlace = ({place}) => {
             </span>
           </div>
 
-          <div className="mb-1 d-flex align-items-center">
+          <div className="d-flex align-items-center">
             <LocationIcon />
             <span className="ms-2 text-truncate">
               {place.address}

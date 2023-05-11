@@ -1,56 +1,33 @@
-import axios from "axios"
-import { useContext, useEffect, useState } from "react"
 import { getBaseUrl } from "../../helper/getBaseUrl"
-import { Link, useNavigate } from "react-router-dom"
-import { getTokenHeader } from "../../helper/getTokenHeader"
-import EachPlace from "./EachPlace"
-import { DisplayInfoContext } from "../../context/DisplayInfoContext"
-import { handleError } from "../../helper/handleError"
+import { Link } from "react-router-dom"
+import EachPlace from "./components/EachPlace"
+import { useFetchData } from "../../customHooks/useFetchData"
 
 const IndexPage = () => {
-  const [allPlaces, setAllPlaces] = useState([])
   const indexClass = `col-12 col-sm-6 col-lg-4 p-0 px-sm-3 my-2 text-dark text-decoration-none`
-  const {setInfo} = useContext(DisplayInfoContext)
 
-  const navigate = useNavigate()
+  const allPlacesUrl = getBaseUrl() + '/places/all'
+  const {value: allPlaces} = useFetchData(allPlacesUrl)
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('camper'))
-    
-    const fetchAllPlaces = async () => {
-      const url = getBaseUrl() + '/places/all'
-      try {
-        const {data} = await axios.get(url, getTokenHeader())
-        setAllPlaces(data)
-        
-      } catch (e) {
-        handleError(e, setInfo)
-      }
-    }
-    
-    if (!user) {
-      navigate('/login')
-
-    } else {
-        fetchAllPlaces()
-    }
-  }, [navigate])
-
-  return (
-    <div className="container overflow-hidden">
-      <div className="row mt-3">
-      {
-        allPlaces.map((place, i) => {
-          return (
-            <Link to={`/places/${place._id}`} className={indexClass} key={place._id}>
-              <EachPlace place={place} />
-            </Link>
-          )
-        })
-      }
+  if (!(allPlaces.length <= 0)) {
+    return (
+      <div className="container overflow-hidden">
+        <div className="row mt-3">
+        {
+          allPlaces.map(place => {
+            return (
+              <Link to={`/places/${place._id}`} className={indexClass} key={place._id}>
+                <EachPlace place={place} />
+              </Link>
+            )
+          })
+        }
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
+  
+  return <h1>No Places Fetched!</h1>
 }
 
 export default IndexPage

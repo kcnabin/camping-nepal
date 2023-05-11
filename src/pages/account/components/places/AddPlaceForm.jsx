@@ -12,6 +12,7 @@ import { handleError } from '../../../../helper/handleError'
 
 const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
   const { placeId } = useParams()
+
   const [name, setName] = useState('')
   const [address, setAddress] = useState('')
   const [photos, setPhotos] = useState([])
@@ -29,7 +30,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
       const fetchPlaceForEdit = async () => {
         const placeUrl = getBaseUrl() + '/places/' + placeId
         try {
-          const {data} = await axios.get(placeUrl)
+          const {data} = await axios.get(placeUrl, getTokenHeader())
           setPlaceToEdit(data)
           setName(data.name)
           setAddress(data.address)
@@ -42,12 +43,11 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
         } catch (e) {
           handleError(e, setInfo)
         }
-        
       }
 
       fetchPlaceForEdit()
     }
-  }, [placeId])
+  }, [placeId, setInfo])
 
   const clearForm = () => {
     setName('')
@@ -60,7 +60,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
     setPlaceToEdit([])
   }
 
-  const addNewCamp = async e => {
+  const addNewCamp = async (e) => {
     e.preventDefault()
     
     if (placeId) {
@@ -71,11 +71,9 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
         }
     
         await axios.put(updatePlaceUrl, placeToUpdate, getTokenHeader())
-        // setPageForm(false)
         clearForm()
         navigate('/account/places')
         
-
       } catch (e) {
         handleError(e, setInfo)
       }
@@ -85,6 +83,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
       const newPlace = {
         name, address, photos, descriptions, facilities, guestsNum, price
       }
+
       try {
         const savedPlace = await axios.post(placeUrl, newPlace, getTokenHeader())
         clearForm()
