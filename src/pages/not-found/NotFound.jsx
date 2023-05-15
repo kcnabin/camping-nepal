@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom"
+import MinHeight100Vh from "../../components/MinHeight100Vh"
 
 
 const NotFound = () => {
   return (
-    <div className="d-flex body-height">
-      <div className="flex-grow-1 d-flex align-items-center justify-content-center">
+    <MinHeight100Vh>
+      <div>
         <span>
-         Got Lost?
-        </span>
-        <Link to='/' className="btn btn-secondary ms-2">
-          Home Page
-        </Link>
+          Got Lost?
+          </span>
+          <Link to='/' className="btn btn-secondary ms-2">
+            Home Page
+          </Link>
       </div>
-    </div>
+    </MinHeight100Vh>
+    
   )
 }
 
