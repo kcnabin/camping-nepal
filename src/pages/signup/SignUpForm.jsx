@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { getBaseUrl } from "../../helper/getBaseUrl"
 import { DisplayInfoContext } from "../../context/DisplayInfoContext"
 import { handleError } from "../../helper/handleError"
+import { toast } from 'react-toastify'
 
 const SignUpForm = () => {
   const [fullName, setFullName] = useState('')
@@ -32,7 +33,7 @@ const SignUpForm = () => {
     try {
       await axios.post(signupUrl, userObject)
       clearForm()
-      setInfo('New User created. Redirecting to login...')
+      toast.success('New User created. Redirecting to login...')
 
       setTimeout(() => {
         setInfo('')

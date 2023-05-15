@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 export const DisplayInfoContext = createContext({})
 
@@ -7,7 +9,7 @@ export const DisplayInfoContextProvider = ({ children }) => {
 
   return (
     <DisplayInfoContext.Provider value={{info, setInfo}} >
-      {info ? (
+      {/* {info ? (
         <div className="alert alert-secondary">
           <div className="container d-flex justify-content-between px-0">
             <div>
@@ -23,7 +25,13 @@ export const DisplayInfoContextProvider = ({ children }) => {
             
           </div>
         </div>
-      ) : ""}
+      ) : ""} */}
+
+      <ToastContainer 
+        position="top-center"
+        hideProgressBar
+        theme="dark"
+      />
 
       {children}
     </DisplayInfoContext.Provider>

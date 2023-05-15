@@ -5,6 +5,7 @@ import { UserContext } from "../../context/UserContext"
 import { useNavigate } from "react-router-dom"
 import { DisplayInfoContext } from "../../context/DisplayInfoContext"
 import { handleError } from "../../helper/handleError"
+import { toast } from 'react-toastify'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('')
@@ -30,6 +31,7 @@ const LoginForm = () => {
 
       setEmail('')
       setPassword('')
+      toast.success('Logged in successfully!')
       navigate('/')
       
     } catch (e) {
