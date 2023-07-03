@@ -1,31 +1,34 @@
 import { Link } from "react-router-dom"
 import LoginForm from "./LoginForm"
-import MinHeight100Vh from "../../components/MinHeight100Vh"
+import Page100Vh from "../../components/Page100Vh"
 
 const LoginPage = () => {
+
   return (
-    <MinHeight100Vh>
-      <div>
-        <p className="h4 text-center mb-4">
+    <Page100Vh>
+      <div className="card p-4 shadow rounded-4 mx-4">
+        <p className="h4 text-center">
           Login
         </p>
 
-        <LoginForm />
+        <div className="my-5">
+          <LoginForm />
+        </div>
 
-        <div className="mt-4 d-sm-flex align-items-center">
-          <span className="fw-bold">
+        <div className="d-flex align-items-center">
+          <span className="fw-bold me-2">
             Don't have an account ?
           </span>
 
           <Link
             to='/signup'
-            className="btn btn-secondary py-1 ms-2"
+            className="py-1 text-primary fw-bold"
           >
-            Sign Up
-          </Link> 
+            Register
+          </Link>
         </div>
       </div>
-    </MinHeight100Vh>
+    </Page100Vh>
   )
 }
 

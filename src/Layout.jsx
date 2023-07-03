@@ -1,15 +1,17 @@
 import { Outlet } from "react-router-dom"
 import Header from "./header/Header"
-import { DisplayInfoContextProvider } from "./context/DisplayInfoContext"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 const Layout = () => {
   return (
     <>
+      <ToastContainer
+        position='top-center'
+        hideProgressBar
+      />
       <Header />
-
-      <DisplayInfoContextProvider>
-        <Outlet />
-      </DisplayInfoContextProvider>
+      <Outlet />
     </>
   )
 }
