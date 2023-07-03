@@ -1,9 +1,11 @@
-import { useState } from "react"
 import axios from 'axios'
+import { useState } from "react"
 import { useUserContext } from "../../context/UserContext"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
+
 import { handleError } from "../../helper/handleError"
 import { toast } from 'react-toastify'
+
 import HideIcon from "../../svg-icons/HideIcon"
 import VisibleIcon from "../../svg-icons/VisibleIcon"
 
@@ -13,6 +15,7 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const navigate = useNavigate()
+  const location = useLocation()
   const { setUser } = useUserContext()
 
   const clearForm = () => {
@@ -34,7 +37,7 @@ const LoginForm = () => {
 
       localStorage.setItem('camper', JSON.stringify(data))
       setUser(data)
-      navigate('/')
+      navigate(location?.state?.redirectTo || '/')
 
     } catch (e) {
       handleError(e)

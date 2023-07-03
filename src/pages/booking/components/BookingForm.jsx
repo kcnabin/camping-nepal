@@ -1,32 +1,58 @@
-import { useContext, useEffect, useState } from "react"
-import { useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useState } from "react"
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-import { getBaseUrl } from "../../../helper/getBaseUrl"
 import { getTokenHeader } from "../../../helper/getTokenHeader"
-import { DisplayInfoContext } from "../../../context/DisplayInfoContext"
 import { dateDifference } from "../../../helper/dateDifference"
 import { handleError } from "../../../helper/handleError"
+import { useUserContext } from "../../../context/UserContext"
+import { getCurrentDate, getTomorrowDate } from "../../../helper/dateHelper"
+import { useFetchDataIf } from "../../../customHooks/useFetchDataIf"
+import { toast } from "react-toastify"
 
-const BookingForm = ({place}) => {
+const BookingForm = ({ place }) => {
   const [checkIn, setCheckIn] = useState('')
   const [checkOut, setCheckOut] = useState('')
   const [noOfPeople, setNoOfPeople] = useState('')
   const [name, setName] = useState('')
   const [contactNo, setContactNo] = useState('')
+  const [email, setEmail] = useState('')
+
   const [myBooking, setMyBooking] = useState({})
 
   const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  const { user } = useUserContext()
   const { bookingId } = useParams()
   const { action } = useParams()
-  const { setInfo } = useContext(DisplayInfoContext)
 
-  // useFetchData hook or any hook can not be called conditionally
+  useEffect(() => {
+    setCheckOut(getTomorrowDate(checkIn))
+  }, [checkIn])
+
+  useEffect(() => {
+    if (user) {
+      const fetchUserInfo = async () => {
+        try {
+          const { data: userInfo } = await axios.get('/user-info', getTokenHeader())
+          setName(userInfo.name)
+          setEmail(userInfo.email)
+
+        } catch (error) {
+          return handleError(error)
+        }
+      }
+
+      fetchUserInfo()
+    }
+  }, [user])
+
   useEffect(() => {
     if (bookingId) {
       const fetchBooking = async () => {
         try {
-          const bookingUrl = getBaseUrl() + '/booking/' + bookingId
-          const {data} = await axios.get(bookingUrl, getTokenHeader())
+          const bookingUrl = '/booking/' + bookingId
+          const { data } = await axios.get(bookingUrl, getTokenHeader())
 
           setMyBooking(data)
           setCheckIn((data.checkIn))
@@ -36,14 +62,15 @@ const BookingForm = ({place}) => {
           setContactNo(data.contactNo)
 
         } catch (e) {
-          handleError(e, setInfo)
+          handleError(e)
         }
       }
 
       fetchBooking()
-    } 
+    }
 
-  }, [bookingId, setInfo])
+  }, [bookingId])
+
 
   const bookPlace = async e => {
     e.preventDefault()
@@ -56,6 +83,7 @@ const BookingForm = ({place}) => {
       checkOut: checkOut.toString(),
       contactName: name,
       contactNo,
+      email,
       price: place.price,
       noOfPeople
     }
@@ -68,26 +96,28 @@ const BookingForm = ({place}) => {
 
     if (bookingId) {
       try {
-        const url = getBaseUrl() + '/booking/' + bookingId
+        const url = `/booking/${bookingId}`
         await axios.put(url, bookingToUpdate, getTokenHeader())
+        toast.success('Booking updated!')
 
       } catch (e) {
-        return handleError(e, setInfo)
+        return handleError(e)
       }
 
     } else {
       try {
-        const url = getBaseUrl() + '/booking'
+        const url = '/booking'
         await axios.post(url, bookingObject, getTokenHeader())
+        toast.success('Place booked!')
 
       } catch (e) {
-        return handleError(e, setInfo)
+        return handleError(e)
       }
     }
 
     navigate('/account/bookings')
   }
-  
+
   return (
     <form onSubmit={bookPlace}>
       <div className="ms-md-5 shadow py-3 px-4 h-100">
@@ -106,10 +136,12 @@ const BookingForm = ({place}) => {
             </span>
             <input
               type="date"
-              className="form-control border border-secondary mt-2 w-100"
+              min={getCurrentDate()}
+              className="form-control border border-secondary mt-1 w-100"
               value={checkIn}
               onChange={e => setCheckIn(e.target.value)}
               required
+              disabled={!user}
             />
           </div>
 
@@ -119,10 +151,12 @@ const BookingForm = ({place}) => {
             </span>
             <input
               type="date"
-              className="form-control border border-secondary mt-2 w-100"
+              min={getTomorrowDate(checkIn)}
+              className="form-control border border-secondary mt-1 w-100"
               value={checkOut}
               onChange={e => setCheckOut(e.target.value)}
               required
+              disabled={!user || !checkIn}
             />
           </div>
         </div>
@@ -133,10 +167,11 @@ const BookingForm = ({place}) => {
           </span>
           <input
             type="number"
-            className="form-control border border-secondary mt-2"
+            className="form-control border border-secondary mt-1"
             value={noOfPeople}
             onChange={e => setNoOfPeople(e.target.value)}
             required
+            disabled={!user}
           />
         </div>
 
@@ -146,10 +181,11 @@ const BookingForm = ({place}) => {
           </span>
           <input
             type="text"
-            className="form-control border border-secondary mt-2"
+            className="form-control border border-secondary mt-1"
             value={name}
             onChange={e => setName(e.target.value)}
             required
+            disabled={!user}
           />
         </div>
 
@@ -160,10 +196,27 @@ const BookingForm = ({place}) => {
           <div>
             <input
               type="number"
-              className="form-control border border-secondary mt-2"
+              className="form-control border border-secondary mt-1"
               value={contactNo}
               onChange={e => setContactNo(e.target.value)}
               required
+              disabled={!user}
+            />
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <span>
+            Email
+          </span>
+          <div>
+            <input
+              type="email"
+              className="form-control border border-secondary mt-1"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              disabled={!user}
             />
           </div>
         </div>
@@ -176,28 +229,38 @@ const BookingForm = ({place}) => {
               </div>
               <div className="mt-3">
                 Total Amount: NRs. {
-                  (dateDifference(checkOut, checkIn) 
+                  (dateDifference(checkOut, checkIn)
                     * place.price).toLocaleString()
                 }
               </div>
             </div>
           ) : ""
         }
-        
 
         <div className="mt-3">
-          <button 
-            type="submit" 
-            className="btn btn-success"
-            disabled={action === 'view'}
-          >
-            {bookingId ? 'Update Booking' : 'Reserve Place'}
-          </button>
+          {user
+            ? (
+              <button
+                type="submit"
+                className="btn btn-success"
+                disabled={action === 'view'}
+              >
+                {bookingId ? 'Update Booking' : 'Reserve Place'}
+              </button>
+            )
+            : (
+              <Link to='/login' state={{ redirectTo: pathname }} className="btn btn-primary">
+                Login
+              </Link>
+            )
+          }
         </div>
-        
+
+
+
       </div>
     </form>
-    
+
   )
 }
 
