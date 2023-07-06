@@ -1,33 +1,27 @@
-import { getBaseUrl } from "../../helper/getBaseUrl"
-import { Link } from "react-router-dom"
-import EachPlace from "./components/EachPlace"
 import { useFetchData } from "../../customHooks/useFetchData"
+import LoadingIcon from "../../svg-icons/LoadingIcon"
+import PlaceCarousel from "./components/PlaceCarousel"
+import AllPlaces from "./components/AllPlaces"
 
 const IndexPage = () => {
-  const indexClass = `col-12 col-sm-6 col-lg-4 p-0 px-sm-3 my-2 text-dark text-decoration-none`
+  const allPlacesUrl = '/places/all'
+  const { value: allPlaces } = useFetchData(allPlacesUrl)
+  console.log('allPlaces :', allPlaces);
 
-  const allPlacesUrl = getBaseUrl() + '/places/all'
-  const {value: allPlaces} = useFetchData(allPlacesUrl)
-
-  if (!(allPlaces.length <= 0)) {
+  if (allPlaces) {
     return (
-      <div className="container overflow-hidden">
-        <div className="row mt-3">
-        {
-          allPlaces.map(place => {
-            return (
-              <Link to={`/places/${place._id}`} className={indexClass} key={place._id}>
-                <EachPlace place={place} />
-              </Link>
-            )
-          })
-        }
+      <div>
+        <PlaceCarousel allPlaces={allPlaces} />
+
+        <div className="mx-2 mx-md-3 mx-xl-4">
+          <AllPlaces allPlaces={allPlaces} />
         </div>
+
       </div>
     )
   }
-  
-  return <h1>No Places Fetched!</h1>
+
+  return (<LoadingIcon />)
 }
 
 export default IndexPage

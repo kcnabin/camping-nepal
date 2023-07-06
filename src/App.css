@@ -1,3 +1,7 @@
+:root {
+  --header-height: 68px;
+}
+
 .brand-img {
   width: 36px;
 }
@@ -37,7 +41,7 @@
 }
 
 .hover-zoom:hover {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .hover-zoom {
@@ -69,7 +73,7 @@ a:hover {
 }
 
 .body-height {
-  min-height: calc(100vh - 68px);
+  min-height: calc(100vh - var(--header-height));
 }
 
 .justify-center {
@@ -80,4 +84,24 @@ a:hover {
 .align-center {
   display: flex;
   align-items: center;
+}
+
+.h-max-100vh {
+  max-height: calc(100vh - var(--header-height));
+}
+
+.carousel-text {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  transition: all 0.5s;
+}
+
+.carousel-text:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 500px) {
+  .font-sm {
+    font-size: 12px;
+  }
 }
