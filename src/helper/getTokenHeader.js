@@ -1,5 +1,11 @@
 export const getTokenHeader = () => {
-  const token = JSON.parse(localStorage.getItem("camper")).token;
+  let token = "";
+
+  const ls = localStorage.getItem("camper");
+  if (ls) {
+    token = JSON.parse(ls).token;
+  }
+
   return {
     headers: {
       Authorization: `bearer ${token}`,

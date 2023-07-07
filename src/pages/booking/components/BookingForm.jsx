@@ -6,7 +6,6 @@ import { dateDifference } from "../../../helper/dateDifference"
 import { handleError } from "../../../helper/handleError"
 import { useUserContext } from "../../../context/UserContext"
 import { getCurrentDate, getTomorrowDate } from "../../../helper/dateHelper"
-import { useFetchDataIf } from "../../../customHooks/useFetchDataIf"
 import { toast } from "react-toastify"
 
 const BookingForm = ({ place }) => {
@@ -115,7 +114,7 @@ const BookingForm = ({ place }) => {
       }
     }
 
-    navigate('/account/bookings')
+    navigate('/account/my-bookings')
   }
 
   return (

@@ -3,14 +3,14 @@
 }
 
 .brand-img {
-  width: 36px;
+  width: 24px;
 }
 .img-thumbnails {
   width: 120px;
 }
 
 .body-height {
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - var(--header-height));
 }
 
 .img-places {
@@ -90,6 +90,10 @@ a:hover {
   max-height: calc(100vh - var(--header-height));
 }
 
+.h-min-100vh {
+  min-height: calc(100vh - var(--header-height));
+}
+
 .carousel-text {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -104,4 +108,15 @@ a:hover {
   .font-sm {
     font-size: 12px;
   }
+}
+
+.dropdown-options {
+  background-color: #ffffff;
+  color: rgba(12, 11, 8, 0.75);
+  padding: 8px 16px 8px;
+  font-size: 16px;
+}
+
+.dropdown-options:hover {
+  background-color: var(--main-gray);
 }

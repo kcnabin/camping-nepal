@@ -15,7 +15,7 @@ const LoginPage = () => {
           <LoginForm />
         </div>
 
-        <div className="d-flex align-items-center">
+        <div className="d-flex flex-wrap align-items-center">
           <span className="fw-bold me-2">
             Don't have an account ?
           </span>

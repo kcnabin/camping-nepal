@@ -1,28 +1,23 @@
-import { useContext, useEffect, useState } from "react"
-import axios from 'axios'
-import { getTokenHeader } from "../helper/getTokenHeader"
-import { handleError } from "../helper/handleError"
-import { DisplayInfoContext } from "../context/DisplayInfoContext"
-
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { getTokenHeader } from "../helper/getTokenHeader";
+import { handleError } from "../helper/handleError";
 
 export const useFetchData = (url, dependency) => {
-  const [value, setValue] = useState('')
-  const { setInfo } = useContext(DisplayInfoContext)
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {data} = await axios.get(url, getTokenHeader())
-        setValue(data)
-
+        const { data } = await axios.get(url, getTokenHeader());
+        setValue(data);
       } catch (error) {
-        handleError(error, setInfo)
+        handleError(error);
       }
-    }
+    };
 
-    fetchData()
+    fetchData();
+  }, [dependency, url]);
 
-  }, [dependency, url, setInfo])
-
-  return {value, setValue}
-}
+  return { value, setValue };
+};

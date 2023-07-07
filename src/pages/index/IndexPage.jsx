@@ -6,7 +6,6 @@ import AllPlaces from "./components/AllPlaces"
 const IndexPage = () => {
   const allPlacesUrl = '/places/all'
   const { value: allPlaces } = useFetchData(allPlacesUrl)
-  console.log('allPlaces :', allPlaces);
 
   if (allPlaces) {
     return (

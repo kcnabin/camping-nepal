@@ -22,6 +22,7 @@ const BookingPage = () => {
           photos={place.photos}
           setAllPhotos={setAllPhotos}
           name={place.name}
+          address={place.address}
         />
       )
     }

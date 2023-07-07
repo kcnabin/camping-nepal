@@ -1,12 +1,12 @@
 import { getImgSrc } from "../../../helper/getImgSrc"
 
 
-const OnlyPhotos = ({ setAllPhotos, photos, name }) => {
+const OnlyPhotos = ({ setAllPhotos, photos, name, address }) => {
   return (
     <div className="container px-3 px-sm-0">
       <div className="mt-2 d-flex justify-content-between align-items-center position-sticky top-0 bg-white">
         <div className="h4 m-0 p-0">
-          {name}
+          {name} - <span className="fw-light fs-5">{address}</span>
         </div>
 
         <button
@@ -20,10 +20,10 @@ const OnlyPhotos = ({ setAllPhotos, photos, name }) => {
         {
           photos.map(photo => {
             return (
-              <img 
+              <img
                 src={getImgSrc(photo)}
                 alt={photo}
-                className="mb-3 w-100 img-fluid rounded-4"
+                className="mb-3 w-100 img-fluid rounded-4 border border-dark"
                 key={photo}
               />
             )

@@ -1,20 +1,22 @@
 import { Link } from "react-router-dom"
-import MinHeight100Vh from "../../components/MinHeight100Vh"
+import Page100Vh from "../../components/Page100Vh"
+import MenuIcon from "../../svg-icons/MenuIcon"
 
 
 const NotFound = () => {
   return (
-    <MinHeight100Vh>
+    <Page100Vh>
       <div>
+        <MenuIcon />
         <span>
           Got Lost?
-          </span>
-          <Link to='/' className="btn btn-secondary ms-2">
-            Home Page
-          </Link>
+        </span>
+        <Link to='/' className="btn btn-secondary ms-2">
+          Home Page
+        </Link>
       </div>
-    </MinHeight100Vh>
-    
+    </Page100Vh>
+
   )
 }
 

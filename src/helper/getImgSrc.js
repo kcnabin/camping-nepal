@@ -1,6 +1,6 @@
-import { getBaseUrl } from "./getBaseUrl"
+import { getBaseUrl } from "./getBaseUrl";
 
 export const getImgSrc = (photo) => {
-  const fullSrc = getBaseUrl() + '/uploads/' + photo
-  return fullSrc
-}
+  const fullSrc = getBaseUrl() + "/uploads/" + photo;
+  return fullSrc;
+};

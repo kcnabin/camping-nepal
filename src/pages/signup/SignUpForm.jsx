@@ -1,8 +1,6 @@
 import { useContext, useState } from "react"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { getBaseUrl } from "../../helper/getBaseUrl"
-import { DisplayInfoContext } from "../../context/DisplayInfoContext"
 import { handleError } from "../../helper/handleError"
 import { toast } from 'react-toastify'
 
@@ -12,7 +10,6 @@ const SignUpForm = () => {
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
-  const { setInfo } = useContext(DisplayInfoContext)
 
   const clearForm = () => {
     setFullName('')
@@ -23,7 +20,7 @@ const SignUpForm = () => {
   const signupUser = async (e) => {
     e.preventDefault()
 
-    const signupUrl = getBaseUrl() + '/signup'
+    const signupUrl = '/signup'
     const userObject = {
       fullName,
       email,
@@ -36,23 +33,22 @@ const SignUpForm = () => {
       toast.success('New User created. Redirecting to login...')
 
       setTimeout(() => {
-        setInfo('')
         navigate('/login')
       }, 4000)
-      
+
     } catch (e) {
-      handleError(e, setInfo)
+      handleError(e)
     }
   }
 
   return (
     <form onSubmit={signupUser}>
-      
+
       <div className="mb-3">
         <label htmlFor="fullname" className="form-label">
           Full Name
         </label>
-        <input 
+        <input
           type="text"
           className="form-control"
           id="fullname"
@@ -66,7 +62,7 @@ const SignUpForm = () => {
         <label htmlFor="email" className="form-label">
           Email
         </label>
-        <input 
+        <input
           type="email"
           className="form-control"
           id="email"
@@ -80,7 +76,7 @@ const SignUpForm = () => {
         <label htmlFor="password" className="form-label">
           Password
         </label>
-        <input 
+        <input
           type="password"
           className="form-control"
           id="password"
