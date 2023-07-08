@@ -23,12 +23,21 @@ const MyPlaces = () => {
               {
                 myPlaces.map((place, i) => {
                   return (
-                    <DisplayEachPlace
-                      place={place}
-                      myPlaces={myPlaces}
-                      setMyPlaces={setMyPlaces}
-                      key={i}
-                    />
+                    <div
+                      key={place._id}
+                      className="col-12 col-sm-6 col-lg-4 p-2"
+                    >
+                      <div className="card rounded-4 overflow-hidden">
+                        <DisplayEachPlace
+                          place={place}
+                          myPlaces={myPlaces}
+                          setMyPlaces={setMyPlaces}
+                          key={i}
+                        />
+                      </div>
+
+                    </div>
+
                   )
                 })
               }

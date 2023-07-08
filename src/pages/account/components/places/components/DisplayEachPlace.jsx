@@ -27,8 +27,6 @@ const DisplayEachPlace = ({ place, myPlaces, setMyPlaces }) => {
 
   return (
     <div
-      key={place._id}
-      className="col-12 col-sm-6 col-lg-4 p-0 card rounded-4 overflow-hidden"
     >
       <div className="card-img-top ratio ratio-4x3">
         <img
@@ -56,14 +54,14 @@ const DisplayEachPlace = ({ place, myPlaces, setMyPlaces }) => {
 
         <div className="mt-2">
           <button
-            className="btn btn-danger"
+            className="btn btn-danger me-2 my-2"
             onClick={() => deletePlace(place._id, place.name)}
           >
             Delete
           </button>
 
           <Link
-            className="btn btn-info text-white ms-2"
+            className="btn btn-info text-white me-2 my-2"
             to={'/account/places/' + place._id.toString()}
           >
             Edit
@@ -71,7 +69,7 @@ const DisplayEachPlace = ({ place, myPlaces, setMyPlaces }) => {
 
           <Link
             to={'/places/' + place._id.toString() + '/view'}
-            className="btn btn-secondary text-white ms-2"
+            className="btn btn-secondary text-white"
           >
             View
           </Link>

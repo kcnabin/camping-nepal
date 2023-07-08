@@ -38,7 +38,7 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
           setPrice(data.price)
 
         } catch (e) {
-          handleError(e,)
+          handleError(e)
         }
       }
 
@@ -197,8 +197,16 @@ const AddPlaceForm = ({ setPageForm, setMyPlaces, myPlaces }) => {
             />
           </div>
 
-          <button type="submit" className="btn btn-success">
+          <button type="submit" className="btn btn-success me-2">
             {placeId ? 'Update Place' : 'Add Place'}
+          </button>
+
+          <button
+            className="btn btn-secondary"
+            type='button'
+            onClick={() => setPageForm(false)}
+          >
+            Cancel
           </button>
         </form>
       </div>

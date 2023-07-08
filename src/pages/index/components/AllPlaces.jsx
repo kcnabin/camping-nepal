@@ -7,7 +7,7 @@ const AllPlaces = ({ allPlaces }) => {
 
   return (
     <div className="container-fluid">
-      <h4 className="m-0 mt-3">
+      <h4 className="m-0 mt-2">
         Browse Camps
       </h4>
       <div className="row my-2">

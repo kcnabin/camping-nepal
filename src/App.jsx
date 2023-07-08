@@ -12,6 +12,7 @@ import UserBookingLayout from "./pages/account/components/userBookings/UserBooki
 import MyBookingLayout from "./pages/account/components/myBookings/MyBookingLayout"
 import ProfileLayout from "./pages/account/components/profile/ProfileLayout"
 import MyPlacesLayout from "./pages/account/components/places/MyPlacesLayout"
+import SearchPage from "./pages/search/SearchPage"
 
 const App = () => {
   axios.defaults.baseURL = `http://localhost:4000`
@@ -21,8 +22,9 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />} >
           <Route index element={<IndexPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignupPage />} />
+          <Route path="search" element={<SearchPage />} />
 
           <Route path="/places/:placeId" element={<BookingPage />} />
           <Route path="/places/:placeId/:action" element={<BookingPage />} />

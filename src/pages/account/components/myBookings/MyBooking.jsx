@@ -9,6 +9,8 @@ import { useEffect, useState } from "react"
 const MyBookings = () => {
   const navigate = useNavigate()
   const bookingUrl = '/booking'
+  const filters = ['Date: Latest']
+
   const { value: myBooking, setValue: setMyBooking } = useFetchData(bookingUrl, '')
   const [bookings, setBookings] = useState('')
 
@@ -42,9 +44,27 @@ const MyBookings = () => {
   if (bookings) {
     return (
       <div className="container-fluid">
-        <h4 className="">
-          My Booking
-        </h4>
+        <div className="align-center justify-content-between mb-2">
+          <h4 className="">
+            My Booking
+          </h4>
+          <div className='align-center ms-sm-2 mt-3 mt-sm-0'>
+            <div>
+              <select
+                className='form-select'
+              >
+                {
+                  filters.map((f, i) => (
+                    <option value={f} key={i}>
+                      {f}
+                    </option>
+                  ))
+                }
+
+              </select>
+            </div>
+          </div>
+        </div>
 
         <div className="row">
           {

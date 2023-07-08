@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 
 const UserBookings = () => {
   const userBookingUrl = '/user-booking'
+  const filters = ['Date: Latest']
   const { value: userBooking } = useFetchData(userBookingUrl, '')
   const [bookings, setBookings] = useState('')
 
@@ -35,15 +36,33 @@ const UserBookings = () => {
   if (bookings) {
     return (
       <div className="container-fluid">
-        <h4 className="">
-          Booking from customers
-        </h4>
+        <div className="align-center justify-content-between mb-2">
+          <h4 className="">
+            Customer Booking
+          </h4>
+          <div className='align-center ms-sm-2 mt-3 mt-sm-0'>
+            <div>
+              <select
+                className='form-select'
+              >
+                {
+                  filters.map((f, i) => (
+                    <option value={f} key={i}>
+                      {f}
+                    </option>
+                  ))
+                }
+
+              </select>
+            </div>
+          </div>
+        </div>
 
         <div className="row">
           {
             bookings.map((booking, i) => {
               return (
-                <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
+                <div key={i} className="col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 mt-2">
                   <div className="card">
                     <BookingInfo booking={booking} />
 
