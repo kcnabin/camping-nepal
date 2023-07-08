@@ -2,7 +2,7 @@ import { dateDifference } from "../../../../helper/dateDifference"
 import { getImgSrc } from "../../../../helper/getImgSrc";
 
 const BookingInfo = ({ booking }) => {
-  console.log('booking :', booking);
+
   return (
     <div className="">
       <div className="ratio ratio-4x3 card-img-top">
@@ -32,6 +32,10 @@ const BookingInfo = ({ booking }) => {
 
         <div className="mb-1">
           Total Nights : {dateDifference(booking.checkOut, booking.checkIn)}
+        </div>
+
+        <div className="mb-1">
+          Group of: {booking.noOfPeople}
         </div>
 
         <div className="mb-1">

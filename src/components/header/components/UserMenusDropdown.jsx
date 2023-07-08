@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { useContext } from 'react'
-import { UserContext } from '../../../context/UserContext'
+import { useUserContext } from '../../../context/UserContext'
 
 import ProfileIcon from '../../../svg-icons/ProfileIcon'
 import BookingIcon from '../../../svg-icons/BookingIcon'
@@ -11,12 +10,12 @@ import IconText from '../../iconText/IconText'
 
 const UserMenuDropdown = () => {
   const navigate = useNavigate()
-  const userContext = useContext(UserContext)
+  const { setUser } = useUserContext()
 
   const logout = e => {
     e.preventDefault()
     localStorage.removeItem('camper')
-    userContext.setUser(null)
+    setUser(null)
     navigate('/login')
   }
 

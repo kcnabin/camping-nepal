@@ -1,28 +1,34 @@
-import { useContext } from "react"
-import { useNavigate } from "react-router-dom"
-import { UserContext } from "../../../../context/UserContext"
+import { useState } from "react";
+import { useFetchData } from "../../../../customHooks/useFetchData"
+import ProfileForm from "./ProfileForm";
+import ProfileInfo from "./ProfileInfo";
+import LoadingIcon from "../../../../svg-icons/LoadingIcon";
 
 const UserProfile = () => {
-  const navigate = useNavigate()
-  const userContext = useContext(UserContext)
+  const [editProfile, setEditProfile] = useState(false)
+  const { value: userInfo, setValue: setUserInfo } = useFetchData('/user-info')
 
-  const logoutUser = () => {
-    localStorage.removeItem('camper')
-    userContext.setUser(null)
-    navigate('/login')
+  if (editProfile && userInfo) {
+    return (
+      <ProfileForm
+        user={userInfo}
+        setUser={setUserInfo}
+        setEditProfile={setEditProfile}
+      />
+    )
   }
 
-  return (
-    <div className="">
-      <p className="h4">My Profile</p>
-      <button
-        onClick={logoutUser}
-        className="btn btn-danger"
-      >
-        Log Out
-      </button>
-    </div>
-  )
+  if (userInfo) {
+    return (
+      <ProfileInfo
+        user={userInfo}
+        setEditProfile={setEditProfile}
+      />
+    )
+  }
+
+  return <LoadingIcon />
+
 }
 
 export default UserProfile

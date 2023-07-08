@@ -4,11 +4,22 @@ import { getTokenHeader } from "../../../../helper/getTokenHeader"
 import { handleError } from "../../../../helper/handleError"
 import BookingInfo from "./BookingInfo"
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from "react"
 
 const MyBookings = () => {
+  const navigate = useNavigate()
   const bookingUrl = '/booking'
   const { value: myBooking, setValue: setMyBooking } = useFetchData(bookingUrl, '')
-  const navigate = useNavigate()
+  const [bookings, setBookings] = useState('')
+
+  useEffect(() => {
+    if (myBooking) {
+      const sortedBookings = [...myBooking].sort(
+        (bookingA, bookingB) => new Date(bookingB.checkIn) - new Date(bookingA.checkIn))
+      setBookings(sortedBookings)
+    }
+  }, [myBooking])
+
 
   const editBooking = (placeId, bookingId) => {
     navigate(`/places/${placeId}/edit/${bookingId}`)
@@ -20,7 +31,7 @@ const MyBookings = () => {
     if (window.confirm('Want to delete booking?')) {
       try {
         await axios.delete(url, getTokenHeader())
-        setMyBooking(myBooking.filter(booking => booking._id.toString() !== bookingId))
+        setMyBooking(bookings.filter(booking => booking._id.toString() !== bookingId))
 
       } catch (e) {
         handleError(e)
@@ -28,7 +39,7 @@ const MyBookings = () => {
     }
   }
 
-  if (myBooking) {
+  if (bookings) {
     return (
       <div className="container-fluid">
         <h4 className="">
@@ -37,16 +48,16 @@ const MyBookings = () => {
 
         <div className="row">
           {
-            myBooking.map((booking, i) => {
+            bookings.map((booking, i) => {
               return (
                 <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
                   <div className="card">
                     <BookingInfo booking={booking} />
 
-                    <div className="mt-3">
+                    <div className="px-3 pb-3">
                       <button
                         className={booking.bookingConfirm ? "btn btn-success" : "btn btn-secondary"}
-                        onClick={() => editBooking(booking.bookedPlace, booking._id)}
+                        onClick={() => editBooking(booking.bookedPlace._id, booking._id)}
                         disabled={booking.bookingConfirm}
                       >
                         {booking.bookingConfirm ? 'Confirmed by Owner' : 'Edit'}

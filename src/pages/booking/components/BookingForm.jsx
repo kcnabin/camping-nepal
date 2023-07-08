@@ -36,6 +36,7 @@ const BookingForm = ({ place }) => {
           const { data: userInfo } = await axios.get('/user-info', getTokenHeader())
           setName(userInfo.name)
           setEmail(userInfo.email)
+          setContactNo(userInfo.phoneNum)
 
         } catch (error) {
           return handleError(error)
@@ -194,7 +195,7 @@ const BookingForm = ({ place }) => {
           </span>
           <div>
             <input
-              type="number"
+              type="text"
               className="form-control border border-secondary mt-1"
               value={contactNo}
               onChange={e => setContactNo(e.target.value)}

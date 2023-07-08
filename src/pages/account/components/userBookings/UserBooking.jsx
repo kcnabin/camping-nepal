@@ -3,10 +3,20 @@ import { useFetchData } from "../../../../customHooks/useFetchData"
 import { getTokenHeader } from "../../../../helper/getTokenHeader"
 import { handleError } from "../../../../helper/handleError"
 import BookingInfo from "../myBookings/BookingInfo"
+import { useEffect, useState } from "react"
 
 const UserBookings = () => {
   const userBookingUrl = '/user-booking'
-  const { value: userBooking, setValue: setUserBooking } = useFetchData(userBookingUrl, '')
+  const { value: userBooking } = useFetchData(userBookingUrl, '')
+  const [bookings, setBookings] = useState('')
+
+  useEffect(() => {
+    if (userBooking) {
+      const sortedBookings = [...userBooking].sort(
+        (bookingA, bookingB) => new Date(bookingB.checkIn) - new Date(bookingA.checkIn))
+      setBookings(sortedBookings)
+    }
+  }, [userBooking])
 
   const confirmBooking = async (bookingId) => {
     const userBookingUrl = '/user-booking/confirm/' + bookingId
@@ -14,7 +24,7 @@ const UserBookings = () => {
     if (window.confirm('Confirm Booking?')) {
       try {
         const { data } = await axios.put(userBookingUrl, { bookingConfirm: true }, getTokenHeader())
-        setUserBooking(userBooking.map(booking => booking._id.toString() !== bookingId ? booking : data))
+        setBookings(bookings.map(booking => booking._id.toString() !== bookingId ? booking : data))
 
       } catch (e) {
         handleError(e)
@@ -22,7 +32,7 @@ const UserBookings = () => {
     }
   }
 
-  if (userBooking) {
+  if (bookings) {
     return (
       <div className="container-fluid">
         <h4 className="">
@@ -31,7 +41,7 @@ const UserBookings = () => {
 
         <div className="row">
           {
-            userBooking.map((booking, i) => {
+            bookings.map((booking, i) => {
               return (
                 <div key={i} className="col-12 col-sm-6 col-lg-4 mt-2">
                   <div className="card">

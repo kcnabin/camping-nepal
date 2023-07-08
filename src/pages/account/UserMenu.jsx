@@ -20,8 +20,8 @@ const UserMenu = () => {
   }
 
   return (
-    <div className='h-min-100vh' style={{ minWidth: "160px" }}>
-      <div className="d-flex flex-column gap-3 ">
+    <div className='h-min-100vh'>
+      <div className="d-flex flex-column gap-3" style={{ minWidth: "170px" }}>
         <Link to='/account/profile' className={getMenuStyle('profile')}>
           <ProfileIcon size={"16px"} />
           <span className='ms-2'>Profile</span>
